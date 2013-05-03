@@ -24,13 +24,17 @@ import java.util.logging.Logger;
 
 public class GoogleTheaterScraper {
 
+    public static final String MOZILLA_USER_AGENT =
+            "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0";
+    public static final String HTTP_AGENT = "http.agent";
+
     public List<Theater> findTheatersForUrl(String url) throws IOException {
 
-        System.setProperty("http.agent", "");
+        System.setProperty(HTTP_AGENT, "");
         Document baseDocument;
 
         baseDocument = Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0")
+                .userAgent(MOZILLA_USER_AGENT)
                 .get();
 
         Elements theater = baseDocument.select(".theater .desc .name");
@@ -52,11 +56,11 @@ public class GoogleTheaterScraper {
 
     public Theater findFirstTheaterForUrl(String url) throws IOException {
 
-        System.setProperty("http.agent", "");
+        System.setProperty(HTTP_AGENT, "");
         Document baseDocument;
 
         baseDocument = Jsoup.connect(url)
-                .userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0")
+                .userAgent(MOZILLA_USER_AGENT)
                 .get();
 
         Elements theater = baseDocument.select(".theater .desc .name");

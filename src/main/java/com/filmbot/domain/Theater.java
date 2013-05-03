@@ -14,6 +14,8 @@ public class Theater {
     private String address;
     private String phone;
 
+    private String sourceUrl;
+
     public Theater(String name) {
         this.name = name;
     }
@@ -48,5 +50,13 @@ public class Theater {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 }
