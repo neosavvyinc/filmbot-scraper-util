@@ -16,4 +16,8 @@ public class Film {
     private List<Showtime> showTimes;
     private Theater theater;
 
+    public Film(String name, Theater theater) {
+        this.name = name;
+        this.theater = theater;
+    }
 }

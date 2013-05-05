@@ -1,8 +1,11 @@
+import com.filmbot.domain.Film;
 import com.filmbot.domain.Theater;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,24 +18,38 @@ public class GoogleFilmAndShowTimeScraperTest {
 
     private Theater theater;
     private GoogleFilmAndShowTimeScraper theaterAndShowTimeScraper;
+    private String sourceUrl = "http://www.google.com/movies?near=new+york,+ny,+usa&tid=d037620376304024";
 
     @Before
     public void runTheaterScrape() throws IOException {
 
         theaterAndShowTimeScraper = new GoogleFilmAndShowTimeScraper();
-        this.theater = (new GoogleTheaterScraper()).findFirstTheaterForUrl("http://www.google.com/movies?near=new+york,+ny,+usa&tid=d037620376304024");
+
+        this.theater = (new GoogleTheaterScraper()).findFirstTheaterForUrl(sourceUrl);
+        this.theater.setSourceUrl(sourceUrl);
+
 
     }
 
 
     @Test
-    public void testFindFilmsForTheater() {
+    public void testFindFilmsForTheater() throws IOException {
+
+        List<Film> filmsForTheater = theaterAndShowTimeScraper.findFilmsForTheater(theater);
+
+        Assert.assertEquals(8, filmsForTheater.size());
+
 
     }
 
     @Test
-    public void testFindShowtimesForFilmAndTheater() {
+    public void testFindShowtimesForFilmAndTheater() throws IOException {
 
+        List<Film> films = theaterAndShowTimeScraper.findFilmsForTheater(theater);
+
+        for (Film film : films) {
+            theaterAndShowTimeScraper.findShowtimesForTheaterAndFilm(theater, film);
+        }
     }
 
 }

@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Theater;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -22,11 +23,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-public class GoogleTheaterScraper {
-
-    public static final String MOZILLA_USER_AGENT =
-            "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:5.0) Gecko/20100101 Firefox/5.0";
-    public static final String HTTP_AGENT = "http.agent";
+public class GoogleTheaterScraper implements ScraperConstants {
 
     public List<Theater> findTheatersForUrl(String url) throws IOException {
 
