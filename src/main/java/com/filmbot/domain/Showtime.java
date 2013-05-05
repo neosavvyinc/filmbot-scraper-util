@@ -11,6 +11,32 @@ import java.util.Date;
  */
 public class Showtime {
 
+    private final Film film;
     private Long id = -1L;
-    private Date date;
+    private String time;
+
+    public Showtime(Film film, String time) {
+        this.film = film;
+        this.time = time;
+    }
+
+    public Film getFilm() {
+        return film;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,8 +34,6 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
                 .userAgent(MOZILLA_USER_AGENT)
                 .get();
 
-        //*[@id="movie_results"]/div/div/div[2]/div[1]/div[1]/div[1]
-
         Elements filmElements = baseDocument.select(".theater .showtimes .movie .name");
         Iterator<Element> filmIterator = filmElements.iterator();
 
@@ -49,9 +49,50 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 
     }
 
-    public List<Showtime> findShowtimesForTheaterAndFilm(Theater theater, Film film) {
+    public List<Showtime> findShowtimesForTheaterAndFilm(Theater theater, Film film) throws IOException {
 
         List<Showtime> showtimes = new ArrayList<Showtime>();
+
+        System.setProperty(HTTP_AGENT, "");
+        Document baseDocument;
+
+        baseDocument = Jsoup.connect(theater.getSourceUrl())
+                .userAgent(MOZILLA_USER_AGENT)
+                .get();
+
+        String selector = ".theater .showtimes .movie .name"; //selects a movie
+        Elements filmElements = baseDocument.select(selector);
+
+        for (Element filmElement : filmElements) {
+
+            if( film.getName().equals(filmElement.text()) ) {
+
+                Elements showtimeElements = filmElement.parent().select(".times span");
+                Iterator<Element> filmIterator = showtimeElements.iterator();
+
+                while(filmIterator.hasNext()) {
+
+                    Element showtimeElement = filmIterator.next();
+                    System.out.println(showtimeElement.text());
+
+
+                    String trimmmedShowTime = showtimeElement.text().trim();
+                    trimmmedShowTime = trimmmedShowTime.replaceAll("[^\\x00-\\x7F]", "");
+
+
+                    Pattern p = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9](am|pm)?");
+                    Matcher m = p.matcher(trimmmedShowTime);
+                    if( m.matches() ) {
+                        showtimes.add(new Showtime(film, showtimeElement.text()));
+                    }
+
+                }
+
+                break;
+
+            }
+
+        }
 
         return showtimes;
 

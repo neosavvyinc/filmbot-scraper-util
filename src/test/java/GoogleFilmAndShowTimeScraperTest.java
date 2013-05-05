@@ -48,8 +48,14 @@ public class GoogleFilmAndShowTimeScraperTest {
         List<Film> films = theaterAndShowTimeScraper.findFilmsForTheater(theater);
 
         for (Film film : films) {
-            theaterAndShowTimeScraper.findShowtimesForTheaterAndFilm(theater, film);
+            film.setShowTimes(theaterAndShowTimeScraper.findShowtimesForTheaterAndFilm(theater, film));
+
+            if( film.getName().equals("Iron Man 3")) {
+                Assert.assertEquals(10, film.getShowTimes().size());
+            }
+
         }
+
     }
 
 }
