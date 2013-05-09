@@ -8,31 +8,23 @@
 
 import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Theater;
-import org.jsoup.Connection;
+import com.filmbot.util.JsoupUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 public class GoogleTheaterScraper implements ScraperConstants {
 
     public List<Theater> findTheatersForUrl(String url) throws IOException {
 
-        System.setProperty(HTTP_AGENT, "");
-        Document baseDocument;
-
-        baseDocument = Jsoup.connect(url)
-                .userAgent(MOZILLA_USER_AGENT)
-                .get();
+        Document baseDocument = JsoupUtil.getDocument(url);
 
         Elements theater = baseDocument.select(".theater .desc .name");
         Iterator<Element> theaterIterator = theater.iterator();
@@ -53,12 +45,7 @@ public class GoogleTheaterScraper implements ScraperConstants {
 
     public Theater findFirstTheaterForUrl(String url) throws IOException {
 
-        System.setProperty(HTTP_AGENT, "");
-        Document baseDocument;
-
-        baseDocument = Jsoup.connect(url)
-                .userAgent(MOZILLA_USER_AGENT)
-                .get();
+        Document baseDocument = JsoupUtil.getDocument(url);
 
         Elements theater = baseDocument.select(".theater .desc .name");
         Iterator<Element> theaterIterator = theater.iterator();

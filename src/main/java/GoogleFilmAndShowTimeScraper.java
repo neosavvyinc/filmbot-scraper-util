@@ -2,6 +2,8 @@ import com.filmbot.domain.Film;
 import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
+import com.filmbot.util.JsoupUtil;
+import com.filmbot.util.RuntimeUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,15 +26,9 @@ import java.util.regex.Pattern;
 public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 
     public List<Film> findFilmsForTheater(Theater theater) throws IOException {
-
         List<Film> films = new ArrayList<Film>();
 
-        System.setProperty(HTTP_AGENT, "");
-        Document baseDocument;
-
-        baseDocument = Jsoup.connect(theater.getSourceUrl())
-                .userAgent(MOZILLA_USER_AGENT)
-                .get();
+        Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl());
 
         Elements filmElements = baseDocument.select(".theater .showtimes .movie .name");
         Iterator<Element> filmIterator = filmElements.iterator();
@@ -52,13 +48,7 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
     public List<Showtime> findShowtimesForTheaterAndFilm(Theater theater, Film film) throws IOException {
 
         List<Showtime> showtimes = new ArrayList<Showtime>();
-
-        System.setProperty(HTTP_AGENT, "");
-        Document baseDocument;
-
-        baseDocument = Jsoup.connect(theater.getSourceUrl())
-                .userAgent(MOZILLA_USER_AGENT)
-                .get();
+        Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl());
 
         String selector = ".theater .showtimes .movie .name"; //selects a movie
         Elements filmElements = baseDocument.select(selector);
@@ -73,16 +63,8 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
                 while(filmIterator.hasNext()) {
 
                     Element showtimeElement = filmIterator.next();
-                    System.out.println(showtimeElement.text());
 
-
-                    String trimmmedShowTime = showtimeElement.text().trim();
-                    trimmmedShowTime = trimmmedShowTime.replaceAll("[^\\x00-\\x7F]", "");
-
-
-                    Pattern p = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9](am|pm)?");
-                    Matcher m = p.matcher(trimmmedShowTime);
-                    if( m.matches() ) {
+                    if(RuntimeUtil.isValidRuntime(showtimeElement.text())) {
                         showtimes.add(new Showtime(film, showtimeElement.text()));
                     }
 

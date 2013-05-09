@@ -18,7 +18,7 @@ public class GoogleFilmAndShowTimeScraperTest {
 
     private Theater theater;
     private GoogleFilmAndShowTimeScraper theaterAndShowTimeScraper;
-    private String sourceUrl = "http://www.google.com/movies?near=new+york,+ny,+usa&tid=d037620376304024";
+    private String sourceUrl = "file:///FILMBOT/filmbot-scraper-utl/src/test/resources/mockdata/regalPark.html";
 
     @Before
     public void runTheaterScrape() throws IOException {
@@ -27,7 +27,6 @@ public class GoogleFilmAndShowTimeScraperTest {
 
         this.theater = (new GoogleTheaterScraper()).findFirstTheaterForUrl(sourceUrl);
         this.theater.setSourceUrl(sourceUrl);
-
 
     }
 
@@ -38,7 +37,6 @@ public class GoogleFilmAndShowTimeScraperTest {
         List<Film> filmsForTheater = theaterAndShowTimeScraper.findFilmsForTheater(theater);
 
         Assert.assertEquals(8, filmsForTheater.size());
-
 
     }
 
@@ -51,7 +49,7 @@ public class GoogleFilmAndShowTimeScraperTest {
             film.setShowTimes(theaterAndShowTimeScraper.findShowtimesForTheaterAndFilm(theater, film));
 
             if( film.getName().equals("Iron Man 3")) {
-                Assert.assertEquals(10, film.getShowTimes().size());
+                Assert.assertEquals(9, film.getShowTimes().size());
             }
 
         }

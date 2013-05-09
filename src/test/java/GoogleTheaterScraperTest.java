@@ -19,7 +19,8 @@ public class GoogleTheaterScraperTest {
     @Test
     public void testFindTheatersForUrl() {
         try {
-            List<Theater> theaters = scraper.findTheatersForUrl("http://www.google.com/movies?near=new+york,+ny,+usa");
+            List<Theater> theaters = scraper.findTheatersForUrl("file:///FILMBOT/filmbot-scraper-utl/src/test/java/resources/mockdata/allNyMovies.html");
+
             Assert.assertEquals(10, theaters.size());
         } catch (IOException e) {
             e.printStackTrace();
@@ -29,7 +30,7 @@ public class GoogleTheaterScraperTest {
     @Test
     public void testFindTheatersForBrokenInvalidUrl() {
         try {
-            List<Theater> theaters = scraper.findTheatersForUrl("http://www.google.com/");
+            List<Theater> theaters = scraper.findTheatersForUrl("http://www.google.com");
             Assert.assertEquals(0, theaters.size());
         } catch (IOException e) {
             e.printStackTrace();
@@ -39,7 +40,7 @@ public class GoogleTheaterScraperTest {
     @Test
     public void testFindFirstTheaterForUrl() {
         try {
-            Theater theater = scraper.findFirstTheaterForUrl("http://www.google.com/movies?near=new+york,+ny,+usa&tid=d037620376304024");
+            Theater theater = scraper.findFirstTheaterForUrl("file:///FILMBOT/filmbot-scraper-utl/src/test/java/resources/mockdata/regalPark.html");
             Assert.assertEquals("Regal Battery Park Stadium 11",theater.getName());
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,7 +50,7 @@ public class GoogleTheaterScraperTest {
     @Test
     public void testFindFirstTheaterForBrokenInvalidUrl() {
         try {
-            Theater theater = scraper.findFirstTheaterForUrl("http://www.google.com/movies?near=new+york,+ny,+usa&tid=asdfasfaf");
+            Theater theater = scraper.findFirstTheaterForUrl("file:///FILMBOT/filmbot-scraper-utl/src/test/java/resources/mockdata/allNyMovies.html");
             Assert.assertEquals(null, theater);
         } catch (IOException e) {
             e.printStackTrace();
