@@ -17,10 +17,20 @@ import java.util.List;
 public interface TheaterDAO {
 
     @RegisterMapper(TheaterMapper.class)
-    @SqlQuery("select t.id id, t.name name, t.address address , td.googleUrl googleUrl from theater_theater t left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id where t.name = :name")
+    @SqlQuery("select t.id id, t.name name, t.address address, " +
+            "td.googleUrl googleUrl from theater_theater t " +
+            "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id " +
+            "where t.name like :name")
     List<Theater> findTheaterByName(
             @Bind("name") String name
             );
+
+
+    @RegisterMapper(TheaterMapper.class)
+    @SqlQuery("select t.id id, t.name name, t.address address, " +
+            "td.googleUrl googleUrl from theater_theater t " +
+            "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id ")
+    List<Theater> findAll();
 
     void close();
 

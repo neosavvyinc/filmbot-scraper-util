@@ -30,20 +30,36 @@ public class TheaterDAOTest extends BaseDAOTest {
         handle.setSQLLog(new PrintStreamLog());
         handle.execute("INSERT INTO theater_theater ( id, name, address, city_id, neighbourHood_id ) " +
                 "VALUES (0, 'Adams Theater', '143 Jackson', -1, -1)");
+        handle.execute("INSERT INTO theater_theater ( id, name, address, city_id, neighbourHood_id ) " +
+                "VALUES (0, 'Adams Big Ass Theater', '143 Jackson', -1, -1)");
+        handle.execute("INSERT INTO theater_theater ( id, name, address, city_id, neighbourHood_id ) " +
+                "VALUES (0, 'Adams Rather Small Theater', '143 Jackson', -1, -1)");
+        handle.execute("INSERT INTO theater_theater ( id, name, address, city_id, neighbourHood_id ) " +
+                "VALUES (0, 'Maxs Rather Small Theater', '143 Jackson', -1, -1)");
 
     }
 
     @Test
-    public void testFindById() {
+    public void testFindByName() {
 
         Theater theaterExpected = new Theater("Adams Theater");
         //default auto increment starting point is 40 @see schema.sql for theater_theater table
         theaterExpected.setId(40);
         theaterExpected.setAddress("143 Jackson");
 
-        List<Theater> theaterFound = dao.findTheaterByName("Adams Theater");
+        List<Theater> theaterFound = dao.findTheaterByName("Adams%");
 
         assertThat(theaterFound.get(0), is(equalTo(theaterExpected)));
+        assertThat(theaterFound.size(), is(equalTo(3)));
+
+    }
+
+    @Test
+    public void testFindAll() {
+
+        List<Theater> all = dao.findAll();
+
+        assertThat(all.size(), is(equalTo(4)));
 
     }
 
