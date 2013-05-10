@@ -8,7 +8,7 @@ package com.filmbot.domain;
  */
 public class Theater {
 
-    private Long id = -1L;
+    private Integer id = -1;
     private String name;
     private String address;
     private String phone;
@@ -19,11 +19,11 @@ public class Theater {
         this.name = name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
