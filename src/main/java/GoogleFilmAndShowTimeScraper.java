@@ -4,7 +4,6 @@ import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
 import com.filmbot.util.JsoupUtil;
 import com.filmbot.util.RuntimeUtil;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,15 +12,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Created with IntelliJ IDEA.
+ * Created for the awesomeness of FilmBot by Neosavvy!
  * User: adamparrish
- * Date: 5/3/13
- * Time: 12:44 AM
- * To change this template use File | Settings | File Templates.
+ * Date: 5/9/13
+ * Time: 9:00 PM
  */
 public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 

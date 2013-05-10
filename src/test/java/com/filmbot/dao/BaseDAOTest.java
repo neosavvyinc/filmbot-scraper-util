@@ -1,9 +1,17 @@
 package com.filmbot.dao;
 
 import com.filmbot.db.DBUtil;
+import com.filmbot.domain.Film;
+import com.filmbot.domain.Theater;
 import org.junit.Before;
 import org.junit.Test;
+import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
+import javax.swing.*;
 import java.sql.SQLException;
 
 /**
@@ -15,6 +23,12 @@ import java.sql.SQLException;
  */
 public class BaseDAOTest {
 
+    static final Logger LOG = LoggerFactory.getLogger(BaseDAOTest.class);
+
+
+    private DataSource dataSource;
+    private DBI dbi;
+    private Handle handle;
 
     @Before
     public void setupDatabase() throws SQLException, ClassNotFoundException {
@@ -28,9 +42,20 @@ public class BaseDAOTest {
 
     }
 
+
+    @Before
+    public void setupJDBI() {
+
+        dbi = DBUtil.initDBI("filmbot_20", "filmbot_20", "filmbot_20_development");
+        handle = dbi.open();
+
+    }
+
     @Test
     public void simpleTest() {
-        System.out.print("DB Runnin...");
+
+        LOG.debug("BASEDAOTEST", new Film("Adams Film", new Theater("Adams Theater")));
+
     }
 
 }

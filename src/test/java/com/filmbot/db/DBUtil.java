@@ -1,6 +1,7 @@
 package com.filmbot.db;
 
 import com.ibatis.common.jdbc.ScriptRunner;
+import org.skife.jdbi.v2.DBI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,6 +38,10 @@ public class DBUtil {
             System.err.println("Failed to Execute" + scriptPath + " The error is " + e.getMessage());
         }
 
+    }
+
+    public static DBI initDBI( String user, String pass, String database) {
+        return new DBI("jdbc:mysql://127.0.0.1:3306/" + database, user, pass);
     }
 
 

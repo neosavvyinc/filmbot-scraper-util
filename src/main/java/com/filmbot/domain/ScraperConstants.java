@@ -1,11 +1,10 @@
 package com.filmbot.domain;
 
 /**
- * Created with IntelliJ IDEA.
+ * Created for the awesomeness of FilmBot by Neosavvy!
  * User: adamparrish
  * Date: 5/5/13
  * Time: 2:34 PM
- * To change this template use File | Settings | File Templates.
  */
 public interface ScraperConstants {
 

@@ -1,15 +1,6 @@
-/**
- * Created with IntelliJ IDEA.
- * User: adamparrish
- * Date: 5/2/13
- * Time: 11:39 PM
- * To change this template use File | Settings | File Templates.
- */
-
 import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Theater;
 import com.filmbot.util.JsoupUtil;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -20,6 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 
 
+/**
+ * Created for the awesomeness of FilmBot by Neosavvy!
+ * User: adamparrish
+ * Date: 5/9/13
+ * Time: 9:00 PM
+ */
 public class GoogleTheaterScraper implements ScraperConstants {
 
     public List<Theater> findTheatersForUrl(String url) throws IOException {
