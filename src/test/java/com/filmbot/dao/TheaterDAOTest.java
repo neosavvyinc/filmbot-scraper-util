@@ -1,12 +1,9 @@
 package com.filmbot.dao;
 
 import com.filmbot.domain.Theater;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.skife.jdbi.v2.logging.Log4JLog;
 import org.skife.jdbi.v2.logging.PrintStreamLog;
-import org.slf4j.helpers.SubstituteLoggerFactory;
 
 import java.util.List;
 
