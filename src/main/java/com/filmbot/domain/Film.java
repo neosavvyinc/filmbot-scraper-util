@@ -10,21 +10,24 @@ import java.util.List;
  */
 public class Film {
 
-    private Long id = -1L;
+    private Integer id = -1;
     private String name;
     private List<Showtime> showTimes;
     private Theater theater;
+
+    public Film() {
+    }
 
     public Film(String name, Theater theater) {
         this.name = name;
         this.theater = theater;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
