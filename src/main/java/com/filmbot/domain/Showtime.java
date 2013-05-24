@@ -1,6 +1,12 @@
 package com.filmbot.domain;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.Days;
+import org.joda.time.Period;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created for the awesomeness of FilmBot by Neosavvy!
@@ -11,12 +17,15 @@ import java.util.Date;
 public class Showtime {
 
     private final Film film;
+    private final List<String> relativeDaysOfWeek;
     private Long id = -1L;
     private String time;
+    private String date;
 
-    public Showtime(Film film, String time) {
+    public Showtime(Film film, String time, List<String> relativeDaysOfWeek) {
         this.film = film;
         this.time = time;
+        this.relativeDaysOfWeek = relativeDaysOfWeek;
     }
 
     public Film getFilm() {
@@ -37,6 +46,66 @@ public class Showtime {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public List<String> getRelativeDaysOfWeek() {
+        return relativeDaysOfWeek;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Date getShowTimeFromString( String relativeDateString ) {
+
+        DateTime now = new DateTime().withTimeAtStartOfDay();
+
+
+        if("Today".equalsIgnoreCase(relativeDateString)) {
+        }
+        else if( "Tomorrow".equalsIgnoreCase(relativeDateString) ) {
+            now = now.plusDays(1);
+        }
+        else {
+            // must be a day of week
+            int dayOfWeekToSet = -1;
+            if("Sunday".equalsIgnoreCase(relativeDateString) ) {
+                dayOfWeekToSet = DateTimeConstants.SUNDAY;
+            }
+            else if("Monday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.MONDAY;
+            }
+            else if("Tuesday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.TUESDAY;
+            }
+            else if("Wednesday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.WEDNESDAY;
+            }
+            else if("Thursday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.THURSDAY;
+            }
+            else if("Friday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.FRIDAY;
+            }
+            else if("Saturday".equalsIgnoreCase(relativeDateString)) {
+                dayOfWeekToSet = DateTimeConstants.SATURDAY;
+            }
+
+            if( dayOfWeekToSet == -1) {
+                throw new UnsupportedOperationException("Unfortunately couldn't determine day of week");
+            }
+
+            DateTime nextDate = now.withDayOfWeek(dayOfWeekToSet);
+            Days daysBetween = Days.daysBetween(now, nextDate);
+            now = now.plusDays(daysBetween.getDays());
+
+        }
+
+        return now.toDate();
     }
 
     @Override

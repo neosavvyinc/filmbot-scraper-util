@@ -1,3 +1,4 @@
+import com.filmbot.DaoEnabled;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Showtime;
@@ -10,6 +11,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,6 +55,7 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 
             if( film.getName().equals(filmElement.text()) ) {
 
+                List<String> relativeDays = findRelativeDays(baseDocument);
                 Elements showtimeElements = filmElement.parent().select(".times span");
                 Iterator<Element> filmIterator = showtimeElements.iterator();
 
@@ -61,7 +64,7 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
                     Element showtimeElement = filmIterator.next();
 
                     if(RuntimeUtil.isValidRuntime(showtimeElement.text())) {
-                        showtimes.add(new Showtime(film, showtimeElement.text()));
+                        showtimes.add(new Showtime(film, showtimeElement.text(), relativeDays));
                     }
 
                 }
@@ -74,6 +77,19 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 
         return showtimes;
 
+    }
+
+    private List<String> findRelativeDays(Document baseDocument) {
+        Element leftHandElements = baseDocument.select("#left_nav > div").first();
+        Elements daysOfWeek = leftHandElements.select("div > div");
+        List<String> returnValues = new ArrayList<String>();
+        for (Element dayElement : daysOfWeek) {
+            String relativeDayOfWeek = dayElement.text();
+            relativeDayOfWeek = relativeDayOfWeek.replaceFirst("›", "");
+            relativeDayOfWeek = relativeDayOfWeek.trim();
+            returnValues.add(relativeDayOfWeek);
+        }
+        return returnValues;
     }
 
 }
