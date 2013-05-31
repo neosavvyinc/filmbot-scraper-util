@@ -3,7 +3,11 @@ import com.filmbot.domain.Film;
 import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,13 +24,56 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
     public void orchestrate() {
 
         try {
+            long startTime = System.nanoTime();
+
             init();
             cleanupShowTimes();
+            insertTheatersFromCSV();
             findAllFilmsForTheaters();
+
+            long endTime = System.nanoTime();
+            long duration = endTime - startTime;
+            System.out.print("Took " + duration + "(ms) to process");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void insertTheatersFromCSV() {
+        String csvFile = "/FILMBOT/filmbot-scraper-utl/src/main/resources/theatersToScrape.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = "#";
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+
+                // use comma as separator
+                String[] theater = line.split(cvsSplitBy);
+
+                int theaterId = theaterDao.insertTheater(theater[0]);
+                theaterDao.insertTheaterDetail(theaterId, theater[2]);
+
+
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void cleanupShowTimes() {
@@ -43,6 +90,16 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
                 for (Film film : films) {
                     List<Showtime> showTimes = filmAndShowScraper.findShowtimesForTheaterAndFilm(theater, film);
                     film.setShowTimes(showTimes);
+
+                    //TODO: Fix Release Date
+                    //TODO: Fix Poster Image
+                    film.setId(filmDao.insertFilm(film.getName(), film.getName(), null, ""));
+
+                    for(Showtime showtime : showTimes ) {
+                        //TODO: Fix the ticketUrl
+                        //TODO: Fix showtime date
+                        showtimeDAO.insertShowTime(theater.getId(), film.getId(), new Date(), "");
+                    }
                 }
 
             }

@@ -3,7 +3,6 @@ package com.filmbot.domain;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
-import org.joda.time.Period;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,7 @@ public class Showtime {
     private final List<String> relativeDaysOfWeek;
     private Long id = -1L;
     private String time;
-    private String date;
+    private Date date;
 
     public Showtime(Film film, String time, List<String> relativeDaysOfWeek) {
         this.film = film;
@@ -52,11 +51,11 @@ public class Showtime {
         return relativeDaysOfWeek;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
