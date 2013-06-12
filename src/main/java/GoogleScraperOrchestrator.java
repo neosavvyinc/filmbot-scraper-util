@@ -21,6 +21,11 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
     private GoogleTheaterScraper theaterScraper = new GoogleTheaterScraper();
     private GoogleFilmAndShowTimeScraper filmAndShowScraper = new GoogleFilmAndShowTimeScraper();
 
+    public static void main(String[] args) {
+        GoogleScraperOrchestrator orchestrator = new GoogleScraperOrchestrator();
+        orchestrator.orchestrate();
+    }
+
     public void orchestrate() {
 
         try {
