@@ -2,7 +2,10 @@ import com.filmbot.DaoEnabled;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
+import com.filmbot.util.TimeUtil;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -111,10 +114,15 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
                     for(Showtime showtime : showTimes ) {
                         //TODO: Fix the ticketUrl
                         //TODO: Fix showtime date
-                        for(String relativeDayOfWeek : showtime.getRelativeDaysOfWeek() ) {
-                            Date showDate = showtime.getShowTimeFromString(relativeDayOfWeek, showtime.getTime());
-                            showtimeDAO.insertShowTime(theater.getId(), film.getId(), showDate, "");
-                        }
+                        DateTime showTimeDate = new DateTime(showtime.getDate());
+                        showTimeDate = showTimeDate.plusMinutes(TimeUtil.getTimeForString(showtime.getTime()).getMinuteOfDay());
+
+                        showtimeDAO.insertShowTime(theater.getId(), film.getId(), showTimeDate.toDate(), "");
+
+//                        for(String relativeDayOfWeek : showtime.getRelativeDaysOfWeek() ) {
+//                            Date showDate = showtime.getShowTimeFromString(relativeDayOfWeek, showtime.getTime());
+
+//                        }
 
 
                     }

@@ -31,6 +31,7 @@ public abstract class DaoEnabled {
     protected ShowtimeDAO showtimeDAO;
 
     protected void init() {
+//        dbi = DBUtil.initDBI("filmbot_20", "giJ0e501F0rever", "filmbot_20_production");
         dbi = DBUtil.initDBI("filmbot_20", "filmbot_20", "filmbot_20_development");
         handle = dbi.open();
 

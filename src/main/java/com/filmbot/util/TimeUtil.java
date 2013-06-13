@@ -1,5 +1,9 @@
 package com.filmbot.util;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,6 +37,22 @@ public class TimeUtil {
         String trimmmedShowTime = dateString.trim();
         trimmmedShowTime = trimmmedShowTime.replaceAll("[^\\x00-\\x7F]", "");
         return trimmmedShowTime;
+    }
+
+    public static DateTime getTimeForString(String timeString) {
+        DateTimeFormatter fmt;
+        if( timeString.endsWith("am") || timeString.endsWith("pm") ||
+                timeString.endsWith("AM") || timeString.endsWith("PM") )
+        {
+            fmt = DateTimeFormat.forPattern("h:mmaa");
+        }
+        else
+        {
+            fmt = DateTimeFormat.forPattern("hh:mm");
+        }
+
+        DateTime timeValue = fmt.parseDateTime(timeString);
+        return timeValue;
     }
 
 }

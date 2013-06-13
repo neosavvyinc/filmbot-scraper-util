@@ -4,6 +4,7 @@ import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
 import com.filmbot.util.JsoupUtil;
 import com.filmbot.util.TimeUtil;
+import org.joda.time.DateTime;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -44,34 +45,39 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
     public List<Showtime> findShowtimesForTheaterAndFilm(Theater theater, Film film) throws IOException {
 
         List<Showtime> showtimes = new ArrayList<Showtime>();
-        Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl());
 
-        String selector = ".theater .showtimes .movie .name"; //selects a movie
-        Elements filmElements = baseDocument.select(selector);
+        for( int i = 0; i < 7; i++ ) {
+            Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl()+"&date="+i);
 
-        for (Element filmElement : filmElements) {
+            String selector = ".theater .showtimes .movie .name"; //selects a movie
+            Elements filmElements = baseDocument.select(selector);
 
-            if( film.getName().equals(filmElement.text()) ) {
+            for (Element filmElement : filmElements) {
 
-                List<String> relativeDays = findRelativeDays(baseDocument);
-                Elements showtimeElements = filmElement.parent().select(".times span");
-                Iterator<Element> filmIterator = showtimeElements.iterator();
+                if( film.getName().equals(filmElement.text()) ) {
 
-                while(filmIterator.hasNext()) {
+                    List<String> relativeDays = findRelativeDays(baseDocument);
+                    Elements showtimeElements = filmElement.parent().select(".times span");
+                    Iterator<Element> filmIterator = showtimeElements.iterator();
 
-                    Element showtimeElement = filmIterator.next();
-                    System.out.println(showtimeElement.text());
+                    while(filmIterator.hasNext()) {
 
-                    if(TimeUtil.isValidTimeString(showtimeElement.text())) {
-                        showtimes.add(new Showtime(film, TimeUtil.sanitizeDateString(showtimeElement.text()), relativeDays));
+                        Element showtimeElement = filmIterator.next();
+
+                        if(TimeUtil.isValidTimeString(showtimeElement.text())) {
+                            DateTime startOfToday = new DateTime().withTimeAtStartOfDay();
+                            startOfToday = startOfToday.plusDays(i);
+
+                            showtimes.add(new Showtime(film, TimeUtil.sanitizeDateString(showtimeElement.text()), relativeDays, startOfToday.toDate()));
+                        }
+
                     }
+
+                    break;
 
                 }
 
-                break;
-
             }
-
         }
 
         return showtimes;

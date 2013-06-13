@@ -24,10 +24,11 @@ public class Showtime {
     private String time;
     private Date date;
 
-    public Showtime(Film film, String time, List<String> relativeDaysOfWeek) {
+    public Showtime(Film film, String time, List<String> relativeDaysOfWeek, Date date) {
         this.film = film;
         this.time = time;
         this.relativeDaysOfWeek = relativeDaysOfWeek;
+        this.date = date;
     }
 
     public Film getFilm() {
