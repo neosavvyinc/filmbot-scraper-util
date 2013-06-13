@@ -2,6 +2,7 @@ import com.filmbot.DaoEnabled;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
+import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -88,6 +89,7 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
     public void findAllFilmsForTheaters() throws IOException {
 
         List<Theater> theaters = theaterDao.findAll();
+//        List<Theater> theaters = theaterDao.findById(8);
         for (Theater theater : theaters) {
             if( theater.getSourceUrl() != null && !theater.getSourceUrl().equals("")) {
                 List<Film> films = filmAndShowScraper.findFilmsForTheater(theater);
@@ -109,13 +111,14 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
                     for(Showtime showtime : showTimes ) {
                         //TODO: Fix the ticketUrl
                         //TODO: Fix showtime date
-                        showtimeDAO.insertShowTime(theater.getId(), film.getId(), new Date(), "");
+                        for(String relativeDayOfWeek : showtime.getRelativeDaysOfWeek() ) {
+                            Date showDate = showtime.getShowTimeFromString(relativeDayOfWeek, showtime.getTime());
+                            showtimeDAO.insertShowTime(theater.getId(), film.getId(), showDate, "");
+                        }
+
+
                     }
                 }
-
-                //temporarily only one theater is being updated
-                break;
-
             }
         }
 

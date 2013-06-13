@@ -1,17 +1,15 @@
-import com.filmbot.DaoEnabled;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.ScraperConstants;
 import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
 import com.filmbot.util.JsoupUtil;
-import com.filmbot.util.RuntimeUtil;
+import com.filmbot.util.TimeUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,9 +60,10 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
                 while(filmIterator.hasNext()) {
 
                     Element showtimeElement = filmIterator.next();
+                    System.out.println(showtimeElement.text());
 
-                    if(RuntimeUtil.isValidRuntime(showtimeElement.text())) {
-                        showtimes.add(new Showtime(film, showtimeElement.text(), relativeDays));
+                    if(TimeUtil.isValidTimeString(showtimeElement.text())) {
+                        showtimes.add(new Showtime(film, TimeUtil.sanitizeDateString(showtimeElement.text()), relativeDays));
                     }
 
                 }

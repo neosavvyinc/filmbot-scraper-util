@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
  * Date: 5/6/13
  * Time: 6:40 PM
  */
-public class RuntimeUtil {
+public class TimeUtil {
 
-    public static boolean isValidRuntime(String runtimeString) {
+    public static boolean isValidTimeString(String runtimeString) {
 
         if( runtimeString == null ) {
             return false;
@@ -27,6 +27,12 @@ public class RuntimeUtil {
 
         }
 
+    }
+
+    public static String sanitizeDateString(String dateString) {
+        String trimmmedShowTime = dateString.trim();
+        trimmmedShowTime = trimmmedShowTime.replaceAll("[^\\x00-\\x7F]", "");
+        return trimmmedShowTime;
     }
 
 }

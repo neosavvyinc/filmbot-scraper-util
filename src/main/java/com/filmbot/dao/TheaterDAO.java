@@ -33,6 +33,13 @@ public interface TheaterDAO {
             "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id ")
     List<Theater> findAll();
 
+    @RegisterMapper(TheaterMapper.class)
+    @SqlQuery("select t.id id, t.name name, t.address address, " +
+            "td.googleUrl googleUrl from theater_theater t " +
+            "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id " +
+            "where t.id like :id")
+    List<Theater> findById(@Bind("id") int id);
+
     @SqlUpdate("insert into theater_theater (name, address, city_id) " +
             "values(:name, 'no address', 0)")
     @GetGeneratedKeys

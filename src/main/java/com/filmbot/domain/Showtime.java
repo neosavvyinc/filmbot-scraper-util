@@ -2,7 +2,10 @@ package com.filmbot.domain;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 import java.util.List;
@@ -59,15 +62,14 @@ public class Showtime {
         this.date = date;
     }
 
-    public Date getShowTimeFromString( String relativeDateString ) {
+    public Date getShowTimeFromString( String relativeDateString, String timeString ) {
 
-        DateTime now = new DateTime().withTimeAtStartOfDay();
-
+        DateTime startOfToday = new DateTime().withTimeAtStartOfDay();
 
         if("Today".equalsIgnoreCase(relativeDateString)) {
         }
         else if( "Tomorrow".equalsIgnoreCase(relativeDateString) ) {
-            now = now.plusDays(1);
+            startOfToday = startOfToday.plusDays(1);
         }
         else {
             // must be a day of week
@@ -98,13 +100,26 @@ public class Showtime {
                 throw new UnsupportedOperationException("Unfortunately couldn't determine day of week");
             }
 
-            DateTime nextDate = now.withDayOfWeek(dayOfWeekToSet);
-            Days daysBetween = Days.daysBetween(now, nextDate);
-            now = now.plusDays(daysBetween.getDays());
+            DateTime nextDate = startOfToday.withDayOfWeek(dayOfWeekToSet);
+            Days daysBetween = Days.daysBetween(startOfToday, nextDate);
+            startOfToday = startOfToday.plusDays(daysBetween.getDays());
 
         }
+        DateTimeFormatter fmt;
+        if( timeString.endsWith("am") || timeString.endsWith("pm") ||
+            timeString.endsWith("AM") || timeString.endsWith("PM") )
+        {
+            fmt = DateTimeFormat.forPattern("h:mmaa");
+        }
+        else
+        {
+            fmt = DateTimeFormat.forPattern("hh:mm");
+        }
 
-        return now.toDate();
+        DateTime timeValue = fmt.parseDateTime(timeString);
+        startOfToday = startOfToday.minuteOfDay().addToCopy(timeValue.getMinuteOfDay());
+
+        return startOfToday.toDate();
     }
 
     @Override
