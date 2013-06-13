@@ -1,0 +1,1 @@
+update filmbot_20_development.film_film set approvalStatus_id = 1

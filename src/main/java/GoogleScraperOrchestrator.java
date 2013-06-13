@@ -33,7 +33,7 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
 
             init();
             cleanupShowTimes();
-            insertTheatersFromCSV();
+            //insertTheatersFromCSV();
             findAllFilmsForTheaters();
 
             long endTime = System.nanoTime();
@@ -98,7 +98,13 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
 
                     //TODO: Fix Release Date
                     //TODO: Fix Poster Image
-                    film.setId(filmDao.insertFilm(film.getName(), film.getName(), null, ""));
+
+                    List<Film> filmsByName = filmDao.findFilmByName(film.getName());
+                    if( filmsByName.size() == 0 ) {
+                        film.setId(filmDao.insertFilm(film.getName(), film.getName(), null, ""));
+                    } else {
+                        film.setId(filmsByName.get(0).getId());
+                    }
 
                     for(Showtime showtime : showTimes ) {
                         //TODO: Fix the ticketUrl
@@ -106,6 +112,9 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
                         showtimeDAO.insertShowTime(theater.getId(), film.getId(), new Date(), "");
                     }
                 }
+
+                //temporarily only one theater is being updated
+                break;
 
             }
         }
