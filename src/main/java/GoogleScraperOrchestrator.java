@@ -117,6 +117,8 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
                         DateTime showTimeDate = new DateTime(showtime.getDate());
                         showTimeDate = showTimeDate.plusMinutes(TimeUtil.getTimeForString(showtime.getTime()).getMinuteOfDay());
 
+                        System.out.println(">>>>>> Showtime[ " + showtime.getFilm().getName() + " ] Theater[ " + showtime.getFilm().getTheater().getName() + " ] " + showtime.getDate() + " " + showtime.getTime());
+
                         showtimeDAO.insertShowTime(theater.getId(), film.getId(), showTimeDate.toDate(), "");
 
 //                        for(String relativeDayOfWeek : showtime.getRelativeDaysOfWeek() ) {

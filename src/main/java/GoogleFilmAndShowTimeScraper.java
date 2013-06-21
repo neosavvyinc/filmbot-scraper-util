@@ -46,11 +46,14 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
 
         List<Showtime> showtimes = new ArrayList<Showtime>();
 
+
         for( int i = 0; i < 7; i++ ) {
             Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl()+"&date="+i);
+//            Document baseDocument = JsoupUtil.getDocument(theater.getSourceUrl());
 
             String selector = ".theater .showtimes .movie .name"; //selects a movie
             Elements filmElements = baseDocument.select(selector);
+            List<Showtime> showtimesForDay = new ArrayList<Showtime>();
 
             for (Element filmElement : filmElements) {
 
@@ -63,25 +66,78 @@ public class GoogleFilmAndShowTimeScraper implements ScraperConstants {
                     while(filmIterator.hasNext()) {
 
                         Element showtimeElement = filmIterator.next();
+                        Showtime showtimeToAdd;
 
                         if(TimeUtil.isValidTimeString(showtimeElement.text())) {
                             DateTime startOfToday = new DateTime().withTimeAtStartOfDay();
                             startOfToday = startOfToday.plusDays(i);
 
-                            showtimes.add(new Showtime(film, TimeUtil.sanitizeDateString(showtimeElement.text()), relativeDays, startOfToday.toDate()));
+                            showtimeToAdd = new Showtime(film, TimeUtil.sanitizeDateString(showtimeElement.text()), relativeDays, startOfToday.toDate());
+                            showtimesForDay.add(showtimeToAdd);
+//                            System.out.println("Showtime[ " + film.getName() + " ] Theater[ " + theater.getName() + " ] " + showtimeToAdd.getDate() + " " + showtimeToAdd.getTime());
                         }
 
                     }
+
+                    appendTimeModifiers(showtimesForDay);
+
 
                     break;
 
                 }
 
             }
+
+            showtimes.addAll(showtimesForDay);
         }
 
         return showtimes;
 
+    }
+
+    public void appendTimeModifiers(List<Showtime> showtimesForDay) {
+        Boolean startsInMorning = false;
+        Integer numElements = 0;
+        Integer startHour = null;
+        for (Showtime showtime : showtimesForDay) {
+            if( numElements == 0 ) {
+
+                String[] startTimeParts = showtime.getTime().split(":");
+                startHour = Integer.parseInt(startTimeParts[0]);
+
+                if( showtime.getTime().toLowerCase().endsWith("am") ) {
+                    startsInMorning = true;
+                }
+                else if ( showtime.getTime().toLowerCase().endsWith("pm") ){
+                    startsInMorning = false;
+                }
+            }
+
+            if( startsInMorning ) {
+
+                if( !(showtime.getTime().endsWith("am")
+                        || showtime.getTime().endsWith("pm")) ){
+
+                    Integer currentHour = Integer.parseInt(showtime.getTime().split(":")[0]);
+                    if( currentHour < startHour ) {
+                        showtime.setTime( showtime.getTime() + "pm");
+                    }
+
+
+                }
+
+            }
+            else {
+                if( !(showtime.getTime().endsWith("am")
+                        || showtime.getTime().endsWith("pm")) ){
+                    showtime.setTime( showtime.getTime() + "pm");
+                }
+            }
+
+            System.out.println("Showtime[ " + showtime.getFilm().getName() + " ] Theater[ " + showtime.getFilm().getTheater().getName() + " ] " + showtime.getDate() + " " + showtime.getTime());
+
+            numElements++;
+        }
     }
 
     private List<String> findRelativeDays(Document baseDocument) {

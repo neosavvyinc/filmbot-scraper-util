@@ -40,6 +40,9 @@ public class TimeUtil {
     }
 
     public static DateTime getTimeForString(String timeString) {
+
+        System.out.println("Loading a date for time: " + timeString);
+
         DateTimeFormatter fmt;
         if( timeString.endsWith("am") || timeString.endsWith("pm") ||
                 timeString.endsWith("AM") || timeString.endsWith("PM") )
