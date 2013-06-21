@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created for the awesomeness of FilmBot by Neosavvy!
@@ -129,6 +130,12 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
 
                     }
                 }
+            }
+
+            try {
+                TimeUnit.SECONDS.sleep(30);
+            } catch (InterruptedException e) {
+                System.err.println(e.toString());
             }
         }
 
