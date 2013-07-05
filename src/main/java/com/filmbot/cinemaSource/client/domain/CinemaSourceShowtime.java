@@ -1,6 +1,7 @@
 package com.filmbot.cinemaSource.client.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import java.util.List;
@@ -46,10 +47,24 @@ public class CinemaSourceShowtime {
     </schedule>
      */
 
+    @XStreamAlias("date")
+    @XStreamAsAttribute
     private String date;
+
+    @XStreamAlias("attributes")
+    @XStreamAsAttribute
     private String attributes;
+
+    @XStreamAlias("sound")
+    @XStreamAsAttribute
     private String sound;
+
+    @XStreamAlias("allowpasses")
+    @XStreamAsAttribute
     private String allowpasses;
+
+    @XStreamAlias("comments")
+    @XStreamAsAttribute
     private String comments;
 
     public String getDate() {
