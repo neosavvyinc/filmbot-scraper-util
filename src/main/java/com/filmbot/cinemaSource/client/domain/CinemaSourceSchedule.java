@@ -1,6 +1,7 @@
 package com.filmbot.cinemaSource.client.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
 import java.util.List;
 
@@ -14,13 +15,13 @@ import java.util.List;
 public class CinemaSourceSchedule {
 
     @XStreamAlias("movie")
-    private CinemaSourceMovie[] movie;
+    private CinemaSourceMovie movie;
 
-    public CinemaSourceMovie[] getMovie() {
+    public CinemaSourceMovie getMovie() {
         return movie;
     }
 
-    public void setMovie(CinemaSourceMovie[] movie) {
+    public void setMovie(CinemaSourceMovie movie) {
         this.movie = movie;
     }
 }

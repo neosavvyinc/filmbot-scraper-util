@@ -1,6 +1,7 @@
 package com.filmbot.cinemaSource.client.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class CinemaSourceHouse {
     private String tms_id;
 //    @XStreamOmitField
     @XStreamAlias("schedule")
-    private CinemaSourceSchedule schedule;
+    private CinemaSourceMovie[] schedule;
 
     public String getName() {
         return name;
@@ -215,11 +216,11 @@ public class CinemaSourceHouse {
         this.tms_id = tms_id;
     }
 
-    public CinemaSourceSchedule getSchedule() {
+    public CinemaSourceMovie[] getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(CinemaSourceSchedule schedule) {
+    public void setSchedule(CinemaSourceMovie[] schedule) {
         this.schedule = schedule;
     }
 }

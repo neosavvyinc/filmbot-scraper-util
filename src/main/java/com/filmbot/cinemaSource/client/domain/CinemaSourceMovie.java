@@ -1,6 +1,7 @@
 package com.filmbot.cinemaSource.client.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
@@ -14,31 +15,23 @@ import java.util.List;
 @XStreamAlias("movie")
 public class CinemaSourceMovie {
 
-    @XStreamAlias("movie_id")
-    private String movie_id;
+    @XStreamOmitField
+    private Integer movie_id;
 
-    @XStreamAlias("movie_name")
+    @XStreamOmitField
     private String movie_name;
 
-    @XStreamAlias("movie_rating")
+    @XStreamOmitField
     private String movie_rating;
 
+    @XStreamOmitField
     private CinemaSourceShowtime[] showtimes;
 
-    public CinemaSourceShowtime[] getShowtimes() {
-        return showtimes;
-    }
-
-    public void setShowtimes(CinemaSourceShowtime[] showtimes) {
-        this.showtimes = showtimes;
-    }
-
-    public String getMovie_id() {
+    public Integer getMovie_id() {
         return movie_id;
     }
 
-
-    public void setMovie_id(String movie_id) {
+    public void setMovie_id(Integer movie_id) {
         this.movie_id = movie_id;
     }
 
@@ -56,5 +49,13 @@ public class CinemaSourceMovie {
 
     public void setMovie_rating(String movie_rating) {
         this.movie_rating = movie_rating;
+    }
+
+    public CinemaSourceShowtime[] getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(CinemaSourceShowtime[] showtimes) {
+        this.showtimes = showtimes;
     }
 }
