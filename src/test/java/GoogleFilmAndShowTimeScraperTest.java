@@ -138,7 +138,7 @@ public class GoogleFilmAndShowTimeScraperTest {
     }
 
     @Test
-    public void testAppendTimeModifiersMorningTillAfterMidnight( ) {
+        public void testAppendTimeModifiersMorningTillAfterMidnight( ) {
 
         List<Showtime> showtimesForDay = new ArrayList<Showtime>();
         showtimesForDay.add(new Showtime(null, "11:30am", null, null));
