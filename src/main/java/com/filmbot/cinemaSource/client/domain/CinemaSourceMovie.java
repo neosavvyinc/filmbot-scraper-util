@@ -15,17 +15,47 @@ import java.util.List;
 @XStreamAlias("movie")
 public class CinemaSourceMovie {
 
-    @XStreamOmitField
+
+    /*
+    <schedule>
+        <movie>
+            <movie_id>140776</movie_id>
+            <movie_name>Stories We Tell</movie_name>
+            <movie_rating>PG-13</movie_rating>
+            <showtimes date='7/5/2013' attributes='' sound='' allowpasses='Yes' comments=''>
+                <showtime>11:00</showtime>
+                <showtime>13:15</showtime>
+                <showtime>15:30</showtime>
+                <showtime>18:00</showtime>
+                <showtime>20:15</showtime>
+                <showtime>22:40</showtime>
+            </showtimes>
+        </movie>
+        <movie>
+            <movie_id>140776</movie_id>
+            <movie_name>Stories We Tell</movie_name>
+            <movie_rating>PG-13</movie_rating>
+            <showtimes date='7/5/2013' attributes='' sound='' allowpasses='Yes' comments=''>
+                <showtime>11:00</showtime>
+                <showtime>13:15</showtime>
+                <showtime>15:30</showtime>
+                <showtime>18:00</showtime>
+                <showtime>20:15</showtime>
+                <showtime>22:40</showtime>
+            </showtimes>
+        </movie>
+    </schedule>
+     */
+
+
     private Integer movie_id;
 
-    @XStreamOmitField
     private String movie_name;
 
-    @XStreamOmitField
     private String movie_rating;
 
-    @XStreamOmitField
-    private CinemaSourceShowtime[] showtimes;
+    @XStreamAlias("showtimes")
+    private CinemaSourceShowtime showtimes;
 
     public Integer getMovie_id() {
         return movie_id;
@@ -51,11 +81,11 @@ public class CinemaSourceMovie {
         this.movie_rating = movie_rating;
     }
 
-    public CinemaSourceShowtime[] getShowtimes() {
+    public CinemaSourceShowtime getShowtimes() {
         return showtimes;
     }
 
-    public void setShowtimes(CinemaSourceShowtime[] showtimes) {
+    public void setShowtimes(CinemaSourceShowtime showtimes) {
         this.showtimes = showtimes;
     }
 }

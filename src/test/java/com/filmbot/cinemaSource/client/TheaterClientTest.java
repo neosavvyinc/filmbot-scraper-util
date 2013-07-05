@@ -3,6 +3,7 @@ package com.filmbot.cinemaSource.client;
 
 import com.filmbot.cinemaSource.client.domain.*;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.junit.Test;
 
 /**
@@ -25,7 +26,7 @@ public class TheaterClientTest {
 
     @Test
     public void testSerialization() {
-        XStream xstream = new XStream();
+        XStream xstream = new XStream(new DomDriver());
 
         xstream.processAnnotations(CinemaSourceDistance.class);
         xstream.processAnnotations(CinemaSourceHouseAddress.class);
@@ -42,60 +43,48 @@ public class TheaterClientTest {
         xstream.processAnnotations(CinemaSourceLocation.class);
 
 
-//        xstream.alias("location", CinemaSourceLocation.class);
-//        xstream.alias("theaters", CinemaSourceTheaters.class);
-//        xstream.alias("house", CinemaSourceHouse.class);
-//        xstream.alias("address", CinemaSourceHouseAddress.class);
-//        xstream.alias("pricing", CinemaSourcePricing.class);
-//        xstream.alias("sounds", CinemaSourceSound.class);
-//        xstream.alias("geolocation", CinemaSourceGeoLocation.class);
-//        xstream.alias("schedule", CinemaSourceSchedule.class);
-//        xstream.alias("movie", CinemaSourceMovie.class);
-//        xstream.alias("showtime", CinemaSourceShowtime.class);
 
-//        xstream.setMode(XStream.NO_REFERENCES);
-//        xstream.alias("sounds", CinemaSourceSound.class);
 
-//        CinemaSourceLocation o = (CinemaSourceLocation) xstream.fromXML("<?xml version='1.0' encoding='ISO-8859-1'?>\n" +
-//                "<location>\n" +
-//                "    <theaters>\n" +
-//                "        <house>\n" +
-//                "            <name>Magno Screening Room</name>\n" +
-//                "            <house_id>29680</house_id>\n" +
-//                "            <address>\n" +
-//                "                <street>729 Seventh Avenue</street>\n" +
-//                "                <city>New York</city>\n" +
-//                "                <state>NY</state>\n" +
-//                "                <zip>10019</zip>\n" +
-//                "                <country>USA</country>\n" +
-//                "                <phone>(212)302-2505</phone>\n" +
-//                "                <county>New York</county>\n" +
-//                "            </address>\n" +
-//                "            <attributes></attributes>\n" +
-//                "            <ticketing>False</ticketing>\n" +
-//                "            <closed_reason></closed_reason>\n" +
-//                "            <locdesc>729 Seventh Avenue</locdesc>\n" +
-//                "            <market>New York</market>\n" +
-//                "            <screens>2</screens>\n" +
-//                "            <seating></seating>\n" +
-//                "            <extra>False</extra>\n" +
-//                "            <website></website>\n" +
-//                "            <pricing>\n" +
-//                "                <adult></adult>\n" +
-//                "                <child></child>\n" +
-//                "                <senior></senior>\n" +
-//                "            </pricing>\n" +
-//                "            <sounds></sounds>\n" +
-//                "            <geolocation>\n" +
-//                "                <lat>40.7602</lat>\n" +
-//                "                <lon>-73.9838</lon>\n" +
-//                "            </geolocation>\n" +
-//                "            <distance></distance>\n" +
-//                "            <fan_ticketing>0</fan_ticketing>\n" +
-//                "            <fan_id>0</fan_id>\n" +
-//                "            <tms_id></tms_id>\n" +
-//                "            <schedule></schedule>\n" +
-//                "        </house></theaters></location>");
+        CinemaSourceLocation o = (CinemaSourceLocation) xstream.fromXML("<?xml version='1.0' encoding='ISO-8859-1'?>\n" +
+                "<location>\n" +
+                "    <theaters>\n" +
+                "        <house>\n" +
+                "            <name>Magno Screening Room</name>\n" +
+                "            <house_id>29680</house_id>\n" +
+                "            <address>\n" +
+                "                <street>729 Seventh Avenue</street>\n" +
+                "                <city>New York</city>\n" +
+                "                <state>NY</state>\n" +
+                "                <zip>10019</zip>\n" +
+                "                <country>USA</country>\n" +
+                "                <phone>(212)302-2505</phone>\n" +
+                "                <county>New York</county>\n" +
+                "            </address>\n" +
+                "            <attributes></attributes>\n" +
+                "            <ticketing>False</ticketing>\n" +
+                "            <closed_reason></closed_reason>\n" +
+                "            <locdesc>729 Seventh Avenue</locdesc>\n" +
+                "            <market>New York</market>\n" +
+                "            <screens>2</screens>\n" +
+                "            <seating></seating>\n" +
+                "            <extra>False</extra>\n" +
+                "            <website></website>\n" +
+                "            <pricing>\n" +
+                "                <adult></adult>\n" +
+                "                <child></child>\n" +
+                "                <senior></senior>\n" +
+                "            </pricing>\n" +
+                "            <sounds></sounds>\n" +
+                "            <geolocation>\n" +
+                "                <lat>40.7602</lat>\n" +
+                "                <lon>-73.9838</lon>\n" +
+                "            </geolocation>\n" +
+                "            <distance></distance>\n" +
+                "            <fan_ticketing>0</fan_ticketing>\n" +
+                "            <fan_id>0</fan_id>\n" +
+                "            <tms_id></tms_id>\n" +
+                "            <schedule></schedule>\n" +
+                "        </house></theaters></location>");
 
 
         CinemaSourceLocation o1 = (CinemaSourceLocation) xstream.fromXML("<?xml version='1.0' encoding='ISO-8859-1'?>\n" +
