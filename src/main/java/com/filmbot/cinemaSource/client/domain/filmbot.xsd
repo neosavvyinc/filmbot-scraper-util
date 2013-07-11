@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="location" type="locationType"/>
+  <xs:complexType name="releaseintlType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="country" use="optional"/>
+        <xs:attribute type="xs:string" name="notes" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="geolocationType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="lat"/>
+      <xs:element type="xs:string" name="lon"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="directorsType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="director" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pricingType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="adult"/>
+      <xs:element type="xs:string" name="child"/>
+      <xs:element type="xs:string" name="senior"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="theatersType">
+    <xs:sequence>
+      <xs:element type="houseType" name="house" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="genresType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="genre" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addressType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="street"/>
+      <xs:element type="xs:string" name="city"/>
+      <xs:element type="xs:string" name="state"/>
+      <xs:element type="xs:string" name="zip"/>
+      <xs:element type="xs:string" name="country"/>
+      <xs:element type="xs:string" name="phone"/>
+      <xs:element name="county">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="New York"/>
+            <xs:enumeration value="Bronx"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="moviesType">
+    <xs:sequence>
+      <xs:element type="movieType" name="movie" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="release_datesType" mixed="true">
+    <xs:sequence>
+      <xs:element type="releaseType" name="release" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="releaseintlType" name="releaseintl" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="soundsType" mixed="true">
+    <xs:sequence>
+      <xs:element name="sound" maxOccurs="unbounded" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Dolby"/>
+            <xs:enumeration value="Digital"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="photosType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="photo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="scheduleType">
+    <xs:sequence>
+      <xs:element type="movieType" name="movie" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="producersType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="producer" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ratingsType">
+    <xs:sequence>
+      <xs:element name="on-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="R"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14A"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="18A"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="bc-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14-A"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="18-A"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nb-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="nf-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ns-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="pe-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="yt-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14-A"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="18-A"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="pq-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="13+"/>
+            <xs:enumeration value="G"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="sk-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14-A"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="18-A"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ab-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="14-A"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="18-A"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="mb-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="14A"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="uk-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="18"/>
+            <xs:enumeration value="U"/>
+            <xs:enumeration value="15"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="12"/>
+            <xs:enumeration value="12A"/>
+            <xs:enumeration value="UC"/>
+            <xs:enumeration value="PG"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ire-rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="18"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="NR"/>
+            <xs:enumeration value="12A"/>
+            <xs:enumeration value="15A"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="PG"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="locationType">
+    <xs:sequence>
+      <xs:element type="theatersType" name="theaters"/>
+      <xs:element type="moviesType" name="movies"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="houseType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="house_id"/>
+      <xs:element type="addressType" name="address"/>
+      <xs:element name="attributes">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="handicap"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="handicap, hearing"/>
+            <xs:enumeration value="hearing"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="ticketing">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="False"/>
+            <xs:enumeration value="True"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="closed_reason"/>
+      <xs:element type="xs:string" name="locdesc"/>
+      <xs:element type="xs:string" name="market"/>
+      <xs:element type="xs:string" name="screens"/>
+      <xs:element name="seating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value=""/>
+            <xs:enumeration value="Stadium, Rocking chairs"/>
+            <xs:enumeration value="Stadium"/>
+            <xs:enumeration value="Stadium, Rocking chairs, Love seats"/>
+            <xs:enumeration value="Reserved"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="extra">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="False"/>
+            <xs:enumeration value="True"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="website"/>
+      <xs:element type="pricingType" name="pricing"/>
+      <xs:element type="soundsType" name="sounds"/>
+      <xs:element type="geolocationType" name="geolocation"/>
+      <xs:element type="xs:string" name="distance"/>
+      <xs:element name="fan_ticketing">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="fan_id"/>
+      <xs:element type="xs:string" name="tms_id"/>
+      <xs:element name="schedule">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:element type="movieType" name="movie" maxOccurs="unbounded" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="movieType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="title" minOccurs="0"/>
+      <xs:element type="xs:string" name="name" minOccurs="0"/>
+      <xs:element type="xs:string" name="movie_id"/>
+      <xs:element type="xs:string" name="movie_name" minOccurs="0"/>
+      <xs:element name="movie_rating" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="PG-13"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="NR"/>
+            <xs:enumeration value="PG"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="showtimesType" name="showtimes" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element type="photosType" name="photos" minOccurs="0"/>
+      <xs:element name="rating" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="NR"/>
+            <xs:enumeration value="PG-13"/>
+            <xs:enumeration value=""/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="PG"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element type="xs:string" name="advisory" minOccurs="0"/>
+      <xs:element type="genresType" name="genres" minOccurs="0"/>
+      <xs:element type="actorsType" name="actors" minOccurs="0"/>
+      <xs:element type="directorsType" name="directors" minOccurs="0"/>
+      <xs:element type="producersType" name="producers" minOccurs="0"/>
+      <xs:element type="writersType" name="writers" minOccurs="0"/>
+      <xs:element type="release_datesType" name="release_dates" minOccurs="0"/>
+      <xs:element type="xs:string" name="synopsis" minOccurs="0"/>
+      <xs:element type="ratingsType" name="ratings" minOccurs="0"/>
+      <xs:element type="xs:string" name="runtime" minOccurs="0"/>
+      <xs:element type="xs:string" name="distributor" minOccurs="0"/>
+      <xs:element type="xs:string" name="website" minOccurs="0"/>
+      <xs:element type="xs:string" name="mlang" minOccurs="0"/>
+      <xs:element name="parent_id" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="119411"/>
+            <xs:enumeration value="120475"/>
+            <xs:enumeration value="118779"/>
+            <xs:enumeration value="115003"/>
+            <xs:enumeration value="112449"/>
+            <xs:enumeration value="120907"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="showtimesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="showtime" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="date" use="optional"/>
+    <xs:attribute type="xs:string" name="attributes" use="optional"/>
+    <xs:attribute type="xs:string" name="sound" use="optional"/>
+    <xs:attribute type="xs:string" name="allowpasses" use="optional"/>
+    <xs:attribute type="xs:string" name="comments" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="releaseType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="notes" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="actorsType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="actor" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="writersType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="writer" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

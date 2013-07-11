@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,40 +28,41 @@ public class CinemaSourceHouse {
     @XStreamAlias("address")
     private CinemaSourceHouseAddress address;
 
-    @XStreamOmitField
+    
     private String attributes;
-    @XStreamOmitField
+    
     private Boolean ticketing;
-    @XStreamOmitField
+    
     private String closed_reason;
-    @XStreamOmitField
+    
     private String locdesc;
-    @XStreamOmitField
+    
     private String market;
-    @XStreamOmitField
+    
     private Integer screens;
-    @XStreamOmitField
+    
     private String seating;
-    @XStreamOmitField
+    
     private Boolean extra;
-    @XStreamOmitField
+    
     private String website;
 
-    @XStreamOmitField
+    
     private CinemaSourcePricing pricing;
-    @XStreamOmitField
+
+    @XStreamAlias("sounds")
     private CinemaSourceSound sounds;
-    @XStreamOmitField
+    
     private CinemaSourceGeoLocation geolocation;
-    @XStreamOmitField
+    
     private CinemaSourceDistance distance;
-    @XStreamOmitField
+    
     private String fan_ticketing;
-    @XStreamOmitField
+    
     private String fan_id;
-    @XStreamOmitField
+    
     private String tms_id;
-//    @XStreamOmitField
+//    
     @XStreamAlias("schedule")
     private CinemaSourceMovie[] schedule;
 
@@ -222,5 +224,31 @@ public class CinemaSourceHouse {
 
     public void setSchedule(CinemaSourceMovie[] schedule) {
         this.schedule = schedule;
+    }
+
+    @Override
+    public String toString() {
+        return "CinemaSourceHouse{" +
+                "name='" + name + '\'' +
+                ", house_id=" + house_id +
+                ", address=" + address +
+                ", attributes='" + attributes + '\'' +
+                ", ticketing=" + ticketing +
+                ", closed_reason='" + closed_reason + '\'' +
+                ", locdesc='" + locdesc + '\'' +
+                ", market='" + market + '\'' +
+                ", screens=" + screens +
+                ", seating='" + seating + '\'' +
+                ", extra=" + extra +
+                ", website='" + website + '\'' +
+                ", pricing=" + pricing +
+                ", sounds=" + sounds +
+                ", geolocation=" + geolocation +
+                ", distance=" + distance +
+                ", fan_ticketing='" + fan_ticketing + '\'' +
+                ", fan_id='" + fan_id + '\'' +
+                ", tms_id='" + tms_id + '\'' +
+                ", schedule=" + Arrays.toString(schedule) +
+                '}';
     }
 }

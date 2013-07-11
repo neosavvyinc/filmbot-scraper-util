@@ -1,8 +1,6 @@
 package com.filmbot.cinemaSource.client;
 
-import com.filmbot.cinemaSource.client.domain.CinemaSourceHouse;
-import com.filmbot.cinemaSource.client.domain.CinemaSourceLocation;
-import com.filmbot.cinemaSource.client.domain.CinemaSourceTheaters;
+import com.filmbot.cinemaSource.client.domain.*;
 import com.filmbot.domain.Theater;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -18,37 +16,43 @@ import java.util.List;
  * Time: 1:17 PM
  */
 public class TheaterClient {
-    public List<Theater> testFindTheaters() {
-
+    static XStream initXstream() {
         XStream xstream = new XStream();
-        xstream.alias("location", CinemaSourceLocation.class);
-        xstream.alias("theaters", CinemaSourceTheaters.class);
-        xstream.alias("house", CinemaSourceHouse.class);
 
-        try {
+        xstream.processAnnotations(CinemaSourceDistance.class);
+        xstream.processAnnotations(CinemaSourceHouseAddress.class);
+        xstream.processAnnotations(CinemaSourcePricing.class);
+        xstream.processAnnotations(CinemaSourceSound.class);
+        xstream.processAnnotations(CinemaSourceGeoLocation.class);
 
-            Client client = Client.create();
+        xstream.processAnnotations(CinemaSourceShowtime.class);
+        xstream.processAnnotations(CinemaSourceMovie.class);
+        xstream.processAnnotations(CinemaSourceSchedule.class);
 
-            WebResource webResource = client
-                    .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
+        xstream.processAnnotations(CinemaSourceHouse.class);
+        xstream.processAnnotations(CinemaSourceTheaters.class);
+        xstream.processAnnotations(CinemaSourceLocation.class);
+        return xstream;
+    }
 
-            ClientResponse response = webResource.type("application/xml")
-                    .get(ClientResponse.class);
+    public List<CinemaSourceHouse> testFindTheaters() {
 
-            System.out.println("Output from Server .... \n");
-            String output = response.getEntity(String.class);
-            System.out.println(output);
+        XStream xstream = TheaterClient.initXstream();
+        Client client = Client.create();
 
+        WebResource webResource = client
+                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
 
+        ClientResponse response = webResource.type("application/xml")
+                .get(ClientResponse.class);
 
+        System.out.println("Output from Server .... \n");
+        String output = response.getEntity(String.class);
+        System.out.println(output);
 
-        } catch (Exception e) {
+        List<CinemaSourceLocation> location = (List<CinemaSourceLocation>) xstream.fromXML(output);
+        return location.get(0).getTheaters().get(0).getHouses();
 
-            e.printStackTrace();
-
-        }
-
-        return null;
 
     }
 }

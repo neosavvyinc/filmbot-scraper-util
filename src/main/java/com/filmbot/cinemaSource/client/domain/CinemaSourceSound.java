@@ -1,5 +1,8 @@
 package com.filmbot.cinemaSource.client.domain;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
 import java.util.List;
 
 /**
@@ -8,15 +11,17 @@ import java.util.List;
  * Date: 7/5/13
  * Time: 3:20 PM
  */
+@XStreamAlias("sounds")
 public class CinemaSourceSound {
 
-    private String[] sound;
+    @XStreamImplicit
+    private List<String> sound;
 
-    public String[] getSound() {
+    public List<String> getSound() {
         return sound;
     }
 
-    public void setSound(String[] sound) {
+    public void setSound(List<String> sound) {
         this.sound = sound;
     }
 }
