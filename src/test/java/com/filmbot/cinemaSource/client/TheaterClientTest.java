@@ -2,9 +2,14 @@ package com.filmbot.cinemaSource.client;
 
 
 import com.filmbot.cinemaSource.client.domain.*;
+import com.filmbot.cinemaSource.client.domain.generated.HouseType;
+import com.filmbot.cinemaSource.client.domain.generated.MovieType;
+import com.filmbot.cinemaSource.client.domain.generated.ShowtimesType;
 import com.thoughtworks.xstream.XStream;
 import org.junit.Test;
 
+import javax.xml.bind.JAXBElement;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,11 +26,35 @@ public class TheaterClientTest {
     @Test
     public void testGetTheaters() {
 
-        List<CinemaSourceHouse> cinemaSourceHouses = client.testFindTheaters();
+        List<HouseType> cinemaSourceHouses = client.testFindTheaters();
 
         for (int i = 0; i < cinemaSourceHouses.size(); i++) {
-            CinemaSourceHouse h = cinemaSourceHouses.get(i);
-            System.out.print("H["+i+"]: "+ h.getName());
+            HouseType h = cinemaSourceHouses.get(i);
+            System.out.println("H[" + i + "]: " + h.getName());
+
+            HouseType.Schedule schedule = h.getSchedule();
+            for ( int j = 0; j < schedule.getContent().size(); j++ ) {
+
+                if(schedule.getContent().get(j) instanceof JAXBElement) {
+
+                    Serializable serializable = schedule.getContent().get(j);
+                    JAXBElement element = (JAXBElement) serializable;
+                    MovieType movie = (MovieType) element.getValue();
+
+                    System.out.println("movie> " + movie.getMovieName());
+                    List<ShowtimesType> showtimes = movie.getShowtimes();
+                    List<String> showtimeStrings = showtimes.get(0).getShowtime();
+                    for ( int k = 0; k < showtimeStrings.size(); k++) {
+                        System.out.println("movietime> " + showtimeStrings.get(k));
+                    }
+
+                }
+
+
+
+            }
+
+
         }
 
     }

@@ -1,12 +1,24 @@
 package com.filmbot.cinemaSource.client;
 
 import com.filmbot.cinemaSource.client.domain.*;
+import com.filmbot.cinemaSource.client.domain.generated.HouseType;
+import com.filmbot.cinemaSource.client.domain.generated.LocationType;
 import com.filmbot.domain.Theater;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.thoughtworks.xstream.XStream;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -35,23 +47,49 @@ public class TheaterClient {
         return xstream;
     }
 
-    public List<CinemaSourceHouse> testFindTheaters() {
+    public List<HouseType> testFindTheaters() {
 
-        XStream xstream = TheaterClient.initXstream();
-        Client client = Client.create();
+//        XStream xstream = TheaterClient.initXstream();
+//        Client client = Client.create();
+//
+//        WebResource webResource = client
+//                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
+//
+//        ClientResponse response = webResource.type("application/xml")
+//                .get(ClientResponse.class);
+//
+//        System.out.println("Output from Server .... \n");
+//        String output = response.getEntity(String.class);
+//        System.out.println(output);
 
-        WebResource webResource = client
-                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
+//        try {
+//            File temp = File.createTempFile("/tmp/cinemasource", ".tmp");
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+//            bw.write(output);
+//            bw.close();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        ClientResponse response = webResource.type("application/xml")
-                .get(ClientResponse.class);
+        try {
 
-        System.out.println("Output from Server .... \n");
-        String output = response.getEntity(String.class);
-        System.out.println(output);
+            File file = new File("/FILMBOT/filmbot-scraper-utl/src/main/java/com/filmbot/cinemaSource/client/domain/generated/filmbot.xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(LocationType.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            Source source = new StreamSource(file);
+            JAXBElement<LocationType> root = jaxbUnmarshaller.unmarshal(source, LocationType.class);
+            LocationType location = root.getValue();
 
-        List<CinemaSourceLocation> location = (List<CinemaSourceLocation>) xstream.fromXML(output);
-        return location.get(0).getTheaters().get(0).getHouses();
+//            LocationType location = (LocationType) jaxbUnmarshaller.unmarshal(file);
+            System.out.println(location);
+
+            return location.getTheaters().getHouse();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+        return null;
 
 
     }
