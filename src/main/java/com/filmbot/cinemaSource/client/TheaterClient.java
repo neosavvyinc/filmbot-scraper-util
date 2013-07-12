@@ -49,35 +49,39 @@ public class TheaterClient {
 
     public List<HouseType> testFindTheaters() {
 
-//        XStream xstream = TheaterClient.initXstream();
-//        Client client = Client.create();
-//
-//        WebResource webResource = client
-//                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
-//
-//        ClientResponse response = webResource.type("application/xml")
-//                .get(ClientResponse.class);
-//
-//        System.out.println("Output from Server .... \n");
-//        String output = response.getEntity(String.class);
-//        System.out.println(output);
+        XStream xstream = TheaterClient.initXstream();
+        Client client = Client.create();
 
-//        try {
-//            File temp = File.createTempFile("/tmp/cinemasource", ".tmp");
-//            BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
-//            bw.write(output);
-//            bw.close();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        WebResource webResource = client
+                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
+
+        ClientResponse response = webResource.type("application/xml")
+                .get(ClientResponse.class);
+
+        System.out.println("Output from Server .... \n");
+        String output = response.getEntity(String.class);
+        System.out.println(output);
+
+        File temp = null;
+
+        try {
+            temp = File.createTempFile(" cinemasource", ".tmp");
+//            temp.deleteOnExit();
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+            bw.write(output);
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
 
-            File file = new File("/FILMBOT/filmbot-scraper-utl/src/main/java/com/filmbot/cinemaSource/client/domain/generated/filmbot.xml");
+//            File file = new File("/tmp/cinemasource.tmp");
             JAXBContext jaxbContext = JAXBContext.newInstance(LocationType.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Source source = new StreamSource(file);
+            Source source = new StreamSource(temp);
             JAXBElement<LocationType> root = jaxbUnmarshaller.unmarshal(source, LocationType.class);
             LocationType location = root.getValue();
 
@@ -88,6 +92,8 @@ public class TheaterClient {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+
+
 
         return null;
 
