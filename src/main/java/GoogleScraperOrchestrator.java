@@ -1,3 +1,4 @@
+import com.filmbot.BaseOrchestrator;
 import com.filmbot.DaoEnabled;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.Showtime;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 5/23/13
  * Time: 11:09 PM
  */
-public class GoogleScraperOrchestrator extends DaoEnabled {
+public class GoogleScraperOrchestrator extends BaseOrchestrator {
 
     private GoogleTheaterScraper theaterScraper = new GoogleTheaterScraper();
     private GoogleFilmAndShowTimeScraper filmAndShowScraper = new GoogleFilmAndShowTimeScraper();
@@ -49,45 +50,6 @@ public class GoogleScraperOrchestrator extends DaoEnabled {
             e.printStackTrace();
         }
 
-    }
-
-    private void insertTheatersFromCSV() {
-        String csvFile = "/FILMBOT/filmbot-scraper-utl/src/main/resources/theatersToScrape.csv";
-        BufferedReader br = null;
-        String line = "";
-        String cvsSplitBy = "#";
-
-        try {
-
-            br = new BufferedReader(new FileReader(csvFile));
-            while ((line = br.readLine()) != null) {
-
-                // use comma as separator
-                String[] theater = line.split(cvsSplitBy);
-
-                int theaterId = theaterDao.insertTheater(theater[0]);
-                theaterDao.insertTheaterDetail(theaterId, theater[2]);
-
-
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private void cleanupShowTimes() {
-        handle.execute("truncate table showtime_showtime");
     }
 
     public void findAllFilmsForTheaters() throws IOException {

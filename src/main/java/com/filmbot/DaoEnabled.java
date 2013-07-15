@@ -20,7 +20,7 @@ import javax.sql.DataSource;
  */
 public abstract class DaoEnabled {
 
-    static final Logger LOG = LoggerFactory.getLogger(DaoEnabled.class);
+    public static final Logger LOG = LoggerFactory.getLogger(DaoEnabled.class);
 
     protected DataSource dataSource;
     protected DBI dbi;

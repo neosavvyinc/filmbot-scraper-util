@@ -26,7 +26,7 @@ public class TheaterClientTest {
     @Test
     public void testGetTheaters() {
 
-        List<HouseType> cinemaSourceHouses = client.testFindTheaters();
+        List<HouseType> cinemaSourceHouses = client.findShowtimesForAllTheaters();
 
         for (int i = 0; i < cinemaSourceHouses.size(); i++) {
             HouseType h = cinemaSourceHouses.get(i);

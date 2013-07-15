@@ -14,6 +14,7 @@ public class Theater {
     private String phone;
 
     private String sourceUrl;
+    private int cinemaSourceId;
 
     public Theater(String name) {
         this.name = name;
@@ -94,5 +95,13 @@ public class Theater {
                 ", phone='" + phone + '\'' +
                 ", sourceUrl='" + sourceUrl + '\'' +
                 '}';
+    }
+
+    public void setCinemaSourceId(int cinemaSourceId) {
+        this.cinemaSourceId = cinemaSourceId;
+    }
+
+    public int getCinemaSourceId() {
+        return cinemaSourceId;
     }
 }

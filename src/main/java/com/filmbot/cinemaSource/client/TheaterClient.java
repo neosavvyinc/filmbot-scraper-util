@@ -47,7 +47,7 @@ public class TheaterClient {
         return xstream;
     }
 
-    public List<HouseType> testFindTheaters() {
+    public List<HouseType> findShowtimesForAllTheaters() {
 
         XStream xstream = TheaterClient.initXstream();
         Client client = Client.create();
@@ -66,7 +66,7 @@ public class TheaterClient {
 
         try {
             temp = File.createTempFile(" cinemasource", ".tmp");
-//            temp.deleteOnExit();
+            temp.deleteOnExit();
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
             bw.write(output);
@@ -77,8 +77,6 @@ public class TheaterClient {
         }
 
         try {
-
-//            File file = new File("/tmp/cinemasource.tmp");
             JAXBContext jaxbContext = JAXBContext.newInstance(LocationType.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             Source source = new StreamSource(temp);

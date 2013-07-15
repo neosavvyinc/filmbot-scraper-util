@@ -23,6 +23,7 @@ public class TheaterMapper implements ResultSetMapper<Theater>{
         t.setId(resultSet.getInt("id"));
         //t.setPhone(resultSet.getString("phone"));
         t.setSourceUrl(resultSet.getString("googleUrl"));
+        t.setCinemaSourceId(resultSet.getInt("cinema_source_id"));
 
         return t;
 

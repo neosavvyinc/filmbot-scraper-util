@@ -19,7 +19,7 @@ import java.util.List;
 public interface TheaterDAO {
 
     @RegisterMapper(TheaterMapper.class)
-    @SqlQuery("select t.id id, t.name name, t.address address, " +
+    @SqlQuery("select t.id id, t.name name, t.address address, t.cinema_source_id, " +
             "td.googleUrl googleUrl from theater_theater t " +
             "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id " +
             "where t.name like :name")
@@ -28,13 +28,22 @@ public interface TheaterDAO {
             );
 
     @RegisterMapper(TheaterMapper.class)
-    @SqlQuery("select t.id id, t.name name, t.address address, " +
+    @SqlQuery("select t.id id, t.name name, t.address address, t.cinema_source_id, " +
+            "td.googleUrl googleUrl from theater_theater t " +
+            "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id " +
+            "where t.cinema_source_id = :id")
+    List<Theater> findTheaterByCinemaSourceId(
+            @Bind("id") Integer id
+    );
+
+    @RegisterMapper(TheaterMapper.class)
+    @SqlQuery("select t.id id, t.name name, t.address address, t.cinema_source_id, " +
             "td.googleUrl googleUrl from theater_theater t " +
             "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id ")
     List<Theater> findAll();
 
     @RegisterMapper(TheaterMapper.class)
-    @SqlQuery("select t.id id, t.name name, t.address address, " +
+    @SqlQuery("select t.id id, t.name name, t.address address, t.cinema_source_id, " +
             "td.googleUrl googleUrl from theater_theater t " +
             "left outer join theater_theaterdetailed td on t.id = td.theater_ptr_id " +
             "where t.id like :id")
