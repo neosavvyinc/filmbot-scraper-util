@@ -1,5 +1,6 @@
 import com.filmbot.domain.Theater;
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.List;
  * Time: 12:01 AM
  * To change this template use File | Settings | File Templates.
  */
+@Ignore
 public class GoogleTheaterScraperTest {
 
     private GoogleTheaterScraper scraper = new GoogleTheaterScraper();

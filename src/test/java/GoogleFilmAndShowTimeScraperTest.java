@@ -3,6 +3,7 @@ import com.filmbot.domain.Showtime;
 import com.filmbot.domain.Theater;
 import junit.framework.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.List;
  * Time: 7:38 AM
  * To change this template use File | Settings | File Templates.
  */
+@Ignore
 public class GoogleFilmAndShowTimeScraperTest {
 
     private Theater theater;

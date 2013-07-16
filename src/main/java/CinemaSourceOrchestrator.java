@@ -6,6 +6,8 @@ import com.filmbot.cinemaSource.client.domain.generated.MovieType;
 import com.filmbot.cinemaSource.client.domain.generated.ShowtimesType;
 import com.filmbot.domain.Film;
 import com.filmbot.domain.Theater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBElement;
 import java.io.IOException;
@@ -23,6 +25,29 @@ import java.util.List;
  * Time: 9:10 PM
  */
 public class CinemaSourceOrchestrator extends BaseOrchestrator {
+
+    public static final Logger LOG = LoggerFactory.getLogger(CinemaSourceOrchestrator.class);
+
+    public static void main(String[] args) {
+
+        if( args == null || args.length != 3) {
+
+            LOG.error("Call the CinemaSourceOrchestrator with two arguments");
+            LOG.error("Example Usage: java -jar scraper-1.0.jar <dbusername> <dbpassword> <dbName>");
+
+            System.exit(1);
+        }
+
+
+
+        CinemaSourceOrchestrator orchestrator = new CinemaSourceOrchestrator();
+
+        dbUserName  = args[0];
+        dbPassword  = args[1];
+        dbName      = args[2];
+
+        orchestrator.orchestrate();
+    }
 
     public void orchestrate() {
 

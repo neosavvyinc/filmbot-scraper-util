@@ -22,6 +22,10 @@ public abstract class DaoEnabled {
 
     public static final Logger LOG = LoggerFactory.getLogger(DaoEnabled.class);
 
+    public static String dbUserName;
+    public static String dbPassword;
+    public static String dbName;
+
     protected DataSource dataSource;
     protected DBI dbi;
     protected Handle handle;
@@ -32,7 +36,7 @@ public abstract class DaoEnabled {
 
     protected void init() {
 //        dbi = DBUtil.initDBI("filmbot_20", "giJ0e501F0rever", "filmbot_20_production");
-        dbi = DBUtil.initDBI("filmbot_20", "filmbot_20", "filmbot_20_development");
+        dbi = DBUtil.initDBI(dbUserName, dbPassword, dbName);
         handle = dbi.open();
 
         filmDao = handle.attach(FilmDAO.class);

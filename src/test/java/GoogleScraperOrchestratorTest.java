@@ -3,6 +3,7 @@ import com.filmbot.dao.FilmDAO;
 import com.filmbot.dao.ShowtimeDAO;
 import com.filmbot.dao.TheaterDAO;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.skife.jdbi.v2.logging.PrintStreamLog;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * Date: 5/23/13
  * Time: 11:10 PM
  */
+@Ignore
 public class GoogleScraperOrchestratorTest extends BaseDAOTest {
 
     private ShowtimeDAO showtimeDAO;

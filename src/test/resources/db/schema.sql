@@ -63,7 +63,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
   KEY `auth_permission_e4470c6e` (`content_type_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=178 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=181 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +313,7 @@ CREATE TABLE `django_admin_log` (
   PRIMARY KEY (`id`),
   KEY `django_admin_log_fbfc09f1` (`user_id`),
   KEY `django_admin_log_e4470c6e` (`content_type_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=485 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=556 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +330,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `app_label` (`app_label`,`model`)
-) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=61 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +407,7 @@ CREATE TABLE `film_film` (
   `releaseStatus_id` int(11) DEFAULT NULL,
   `approvalStatus_id` int(11) DEFAULT NULL,
   `scrapeName` varchar(200) NOT NULL,
-  `releaseDate` datetime DEFAULT NULL,
+  `releaseDate` date DEFAULT NULL,
   `filmStatistic_id` int(11) DEFAULT NULL,
   `quick_access_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -415,7 +415,7 @@ CREATE TABLE `film_film` (
   KEY `film_film_328298d3` (`approvalStatus_id`),
   KEY `film_film_f1ee1f9b` (`filmStatistic_id`),
   KEY `film_film_2a9fe13e` (`quick_access_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2744 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3488 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -433,7 +433,7 @@ CREATE TABLE `film_film_filmtypes` (
   UNIQUE KEY `film_film_filmTypes_film_id_26f60c1467cf6e56_uniq` (`film_id`,`filmtype_id`),
   KEY `film_film_filmTypes_65dfe046` (`film_id`),
   KEY `film_film_filmTypes_4624895a` (`filmtype_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=456 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=503 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -451,7 +451,7 @@ CREATE TABLE `film_film_genres` (
   UNIQUE KEY `film_film_genres_film_id_1d8494396714244e_uniq` (`film_id`,`genre_id`),
   KEY `film_film_genres_65dfe046` (`film_id`),
   KEY `film_film_genres_f8d711d0` (`genre_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=558 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=650 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +489,7 @@ CREATE TABLE `film_filmdisplay` (
   UNIQUE KEY `film_filmdisplay_film_id_aeabcf613d2c145_uniq` (`film_id`),
   KEY `film_filmdisplay_65dfe046` (`film_id`),
   CONSTRAINT `film_id_refs_id_73b0f4e214439c52` FOREIGN KEY (`film_id`) REFERENCES `film_film` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2201 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2783 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,7 +534,7 @@ CREATE TABLE `film_quickaccess` (
   `show_times_next_day` tinyint(1) NOT NULL,
   `show_times_next_next_day` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=262 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -549,6 +549,26 @@ CREATE TABLE `film_releasestatus` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `friend_emailinvite`
+--
+
+DROP TABLE IF EXISTS `friend_emailinvite`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `friend_emailinvite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(200) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `full_name` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code` (`code`),
+  KEY `friend_emailinvite_901f59e9` (`sender_id`),
+  CONSTRAINT `sender_id_refs_user_ptr_id_132f681c2f3ad40` FOREIGN KEY (`sender_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -602,7 +622,7 @@ CREATE TABLE `legacy_legacyfilm` (
   `feature` tinyint(1) NOT NULL,
   `nytimes_review_link` varchar(600) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1471 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1733 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -620,7 +640,7 @@ CREATE TABLE `legacy_legacyshowtime` (
   `ticket_url` varchar(600) NOT NULL,
   `authority` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1531669 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1742766 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -704,7 +724,7 @@ CREATE TABLE `movie_moviescore` (
   KEY `movie_moviescore_d18ae35` (`film_bot_user_id`),
   CONSTRAINT `film_bot_user_id_refs_user_ptr_id_61e2d13c71dba2f3` FOREIGN KEY (`film_bot_user_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`),
   CONSTRAINT `film_id_refs_id_51e3530355fd9c0` FOREIGN KEY (`film_id`) REFERENCES `film_film` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -759,19 +779,22 @@ DROP TABLE IF EXISTS `profile_friendship`;
 CREATE TABLE `profile_friendship` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `giver_id` int(11) NOT NULL,
-  `receiver_id` int(11) NOT NULL,
+  `receiver_id` int(11) DEFAULT NULL,
   `receiver_email` varchar(400) NOT NULL,
   `receiver_full_name` varchar(400) NOT NULL,
   `status_id` int(11) NOT NULL,
   `sent_at` date NOT NULL,
+  `email_invite_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `email_invite_id` (`email_invite_id`),
   KEY `profile_friendship_81588a32` (`giver_id`),
   KEY `profile_friendship_6828e8a9` (`receiver_id`),
   KEY `profile_friendship_44224078` (`status_id`),
-  CONSTRAINT `status_id_refs_id_2fc8e42807c7dc9b` FOREIGN KEY (`status_id`) REFERENCES `profile_friendshipstatus` (`id`),
+  CONSTRAINT `email_invite_id_refs_id_69b89f53fcfbaf4d` FOREIGN KEY (`email_invite_id`) REFERENCES `friend_emailinvite` (`id`),
   CONSTRAINT `giver_id_refs_user_ptr_id_2ff8ddc66edb5dae` FOREIGN KEY (`giver_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`),
-  CONSTRAINT `receiver_id_refs_user_ptr_id_2ff8ddc66edb5dae` FOREIGN KEY (`receiver_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  CONSTRAINT `receiver_id_refs_user_ptr_id_2ff8ddc66edb5dae` FOREIGN KEY (`receiver_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`),
+  CONSTRAINT `status_id_refs_id_2fc8e42807c7dc9b` FOREIGN KEY (`status_id`) REFERENCES `profile_friendshipstatus` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -804,7 +827,7 @@ CREATE TABLE `profile_savedfilm` (
   KEY `profile_savedfilm_65dfe046` (`film_id`),
   CONSTRAINT `film_id_refs_id_69de93c35bf263f9` FOREIGN KEY (`film_id`) REFERENCES `film_film` (`id`),
   CONSTRAINT `film_bot_user_id_refs_user_ptr_id_19f374075580f814` FOREIGN KEY (`film_bot_user_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -824,7 +847,7 @@ CREATE TABLE `profile_trustability` (
   KEY `profile_trustability_b134f7fe` (`applies_to_id`),
   CONSTRAINT `applies_to_id_refs_user_ptr_id_115e14a1f64c71ca` FOREIGN KEY (`applies_to_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`),
   CONSTRAINT `giver_id_refs_user_ptr_id_115e14a1f64c71ca` FOREIGN KEY (`giver_id`) REFERENCES `profile_filmbotuser` (`user_ptr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -838,7 +861,7 @@ CREATE TABLE `profile_usercheckpoints` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `completed_new_user_tutorial` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -945,7 +968,7 @@ CREATE TABLE `showtime_showtime` (
   KEY `showtime_showtime_9ba30a20` (`theater_id`),
   KEY `showtime_showtime_65dfe046` (`film_id`),
   KEY `showtime_showtime_690127e1` (`screeningType_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=455779 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=1815 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -961,7 +984,7 @@ CREATE TABLE `south_migrationhistory` (
   `migration` varchar(255) NOT NULL,
   `applied` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=63 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -974,7 +997,7 @@ DROP TABLE IF EXISTS `statistic_filmstatistic`;
 CREATE TABLE `statistic_filmstatistic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2861 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3319 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -990,7 +1013,7 @@ CREATE TABLE `statistic_imdbstatistic` (
   `filmStatistic_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `filmStatistic_id` (`filmStatistic_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2861 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3294 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1007,7 +1030,7 @@ CREATE TABLE `statistic_nytimesstatistic` (
   `filmStatistic_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `filmStatistic_id` (`filmStatistic_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2861 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3294 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1026,7 +1049,7 @@ CREATE TABLE `statistic_rottentomatostatistic` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `filmStatistic_id` (`filmStatistic_id`),
   KEY `statistic_rottentomatostatistic_777d41c8` (`type_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2861 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3319 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1056,6 +1079,7 @@ CREATE TABLE `theater_theater` (
   `address` varchar(400) NOT NULL,
   `city_id` int(11) NOT NULL,
   `neighbourHood_id` int(11) DEFAULT NULL,
+  `cinema_source_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `theater_theater_586a73b5` (`city_id`),
   KEY `theater_theater_5eb110ce` (`neighbourHood_id`)
@@ -1119,7 +1143,7 @@ CREATE TABLE `trailer_trailer` (
   KEY `trailer_trailer_65dfe046` (`film_id`),
   KEY `trailer_trailer_83f54662` (`host_id`),
   KEY `trailer_trailer_1dccf9c6` (`trailerType_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=266 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=293 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1174,4 +1198,4 @@ CREATE TABLE `www_sitetuning` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-05-09 20:25:11
+-- Dump completed on 2013-07-16 13:31:08
