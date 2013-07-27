@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,49 +53,56 @@ public class TheaterClient {
         XStream xstream = TheaterClient.initXstream();
         Client client = Client.create();
 
-        WebResource webResource = client
-                .resource("http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes");
+        /**
+         * Extract these out to a properties/configuration file
+         */
+        String[] urlsToParse = new String[3];
+        urlsToParse[0] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Long%20Island%20City&state=NY&sd=yes&schedule=yes&movies=yes";
+        urlsToParse[1] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Brooklyn&state=NY&sd=yes&schedule=yes&movies=yes";
+        urlsToParse[2] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes";
 
-        ClientResponse response = webResource.type("application/xml")
-                .get(ClientResponse.class);
+        List<HouseType> allHouses = new ArrayList<HouseType>();
 
-        System.out.println("Output from Server .... \n");
-        String output = response.getEntity(String.class);
-        System.out.println(output);
+        for (String s : urlsToParse) {
 
-        File temp = null;
+            WebResource webResource = client
+                    .resource(s);
 
-        try {
-            temp = File.createTempFile(" cinemasource", ".tmp");
-            temp.deleteOnExit();
+            ClientResponse response = webResource.type("application/xml")
+                    .get(ClientResponse.class);
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
-            bw.write(output);
-            bw.close();
+            System.out.println("Output from Server .... \n");
+            String output = response.getEntity(String.class);
+            System.out.println(output);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            File temp = null;
+
+            try {
+                temp = File.createTempFile(" cinemasource", ".tmp");
+                temp.deleteOnExit();
+
+                BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+                bw.write(output);
+                bw.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                JAXBContext jaxbContext = JAXBContext.newInstance(LocationType.class);
+                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+                Source source = new StreamSource(temp);
+                JAXBElement<LocationType> root = jaxbUnmarshaller.unmarshal(source, LocationType.class);
+                LocationType location = root.getValue();
+
+                allHouses.addAll(location.getTheaters().getHouse());
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+
         }
 
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(LocationType.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Source source = new StreamSource(temp);
-            JAXBElement<LocationType> root = jaxbUnmarshaller.unmarshal(source, LocationType.class);
-            LocationType location = root.getValue();
-
-//            LocationType location = (LocationType) jaxbUnmarshaller.unmarshal(file);
-            System.out.println(location);
-
-            return location.getTheaters().getHouse();
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-
-
-        return null;
-
-
+        return allHouses;
     }
 }
