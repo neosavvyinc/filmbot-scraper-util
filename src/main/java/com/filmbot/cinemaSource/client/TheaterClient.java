@@ -4,6 +4,7 @@ import com.filmbot.cinemaSource.client.domain.*;
 import com.filmbot.cinemaSource.client.domain.generated.HouseType;
 import com.filmbot.cinemaSource.client.domain.generated.LocationType;
 import com.filmbot.domain.Theater;
+import com.filmbot.util.TimeUtil;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -57,13 +58,19 @@ public class TheaterClient {
          * Extract these out to a properties/configuration file
          */
         String[] urlsToParse = new String[3];
-        urlsToParse[0] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Long%20Island%20City&state=NY&sd=yes&schedule=yes&movies=yes";
-        urlsToParse[1] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Brooklyn&state=NY&sd=yes&schedule=yes&movies=yes";
-        urlsToParse[2] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes";
+        urlsToParse[0] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Long%20Island%20City&state=NY&sd=yes&schedule=yes&movies=yes&showdate=$startDate&enddate=$endDate";
+        urlsToParse[1] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=Brooklyn&state=NY&sd=yes&schedule=yes&movies=yes&showdate=$startDate&enddate=$endDate";
+        urlsToParse[2] = "http://webservice.cinema-source.com/2.9/?apikey=NYBOT&query=location&city=New%20York&state=NY&sd=yes&schedule=yes&movies=yes&showdate=$startDate&enddate=$endDate";
+
+        String startDateString = TimeUtil.getDateStringForOffset(0);
+        String endDateString = TimeUtil.getDateStringForOffset(4);
 
         List<HouseType> allHouses = new ArrayList<HouseType>();
 
         for (String s : urlsToParse) {
+
+            s = s.replace("$startDate", startDateString);
+            s = s.replace("$endDate", endDateString);
 
             WebResource webResource = client
                     .resource(s);

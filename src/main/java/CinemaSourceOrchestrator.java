@@ -105,11 +105,15 @@ public class CinemaSourceOrchestrator extends BaseOrchestrator {
                             updateShowtimes(movie, filmsByName.get(0), theater);
 
                         } else {
-
-                            int id = filmDao.insertFilm(movie.getMovieName(), movie.getMovieName(), null, "");
+                            int runtime =0 ;
+                            try {
+                                runtime=Integer.parseInt(movie.getRuntime());
+                            } catch (NumberFormatException e) {
+                                LOG.error("Error while parsing runtime - defaulting to 0 for: ", movie.getName());
+                            }
+                            int id = filmDao.insertFilm(movie.getMovieName(), movie.getMovieName(), null, "", runtime, movie.getSynopsis());
                             filmsByName = filmDao.findFilmById(id);
                             updateShowtimes(movie, filmsByName.get(0), theater);
-
                         }
                     }
                 }

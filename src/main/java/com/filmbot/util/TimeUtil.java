@@ -1,6 +1,7 @@
 package com.filmbot.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -56,6 +57,15 @@ public class TimeUtil {
 
         DateTime timeValue = fmt.parseDateTime(timeString);
         return timeValue;
+    }
+
+    public static String getDateStringForOffset( int offset ) {
+
+        DateTime today = DateTime.now().withTimeAtStartOfDay();
+        today = today.plusDays(offset);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("YYYYMMdd");
+
+        return fmt.print(today);
     }
 
 }

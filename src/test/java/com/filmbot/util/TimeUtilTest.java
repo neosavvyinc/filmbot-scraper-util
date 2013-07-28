@@ -46,4 +46,21 @@ public class TimeUtilTest {
         Assert.assertEquals(false, TimeUtil.isValidTimeString("gobblydygook"));
     }
 
+    @Test
+    public void testOffsetTimeStringFunction() {
+
+        String offsetStringForToday  = TimeUtil.getDateStringForOffset(0);
+        String offsetStringForTomorrow  = TimeUtil.getDateStringForOffset(1);
+        String offsetStringForDayAfterTomorrow  = TimeUtil.getDateStringForOffset(2);
+        String offsetStringForFourDaysOut = TimeUtil.getDateStringForOffset(3);
+        String offsetStringForFiveDaysOut  = TimeUtil.getDateStringForOffset(4);
+
+        Assert.assertEquals("20130728", offsetStringForToday);
+        Assert.assertEquals("20130729", offsetStringForTomorrow);
+        Assert.assertEquals("20130730", offsetStringForDayAfterTomorrow);
+        Assert.assertEquals("20130731", offsetStringForFourDaysOut);
+        Assert.assertEquals("20130801", offsetStringForFiveDaysOut);
+
+    }
+
 }
