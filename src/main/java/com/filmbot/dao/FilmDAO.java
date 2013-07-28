@@ -21,8 +21,8 @@ import java.util.List;
  */
 public interface  FilmDAO {
 
-    @SqlUpdate("insert into film_film (name, scrapeName, releaseDate, posterImage) " +
-            "values(:name, :scrapeName, :releaseDate, :posterImage)")
+    @SqlUpdate("insert into film_film (name, scrapeName, releaseDate, posterImage, runningTime, synopsis) " +
+            "values(:name, :scrapeName, :releaseDate, :posterImage, null, null)")
     @GetGeneratedKeys
     int insertFilm(@Bind("name") String name,
                    @Bind("scrapeName") String scrapeName,
@@ -44,8 +44,8 @@ public interface  FilmDAO {
             " f.posterImage as posterImage, "+
             " f.scrapeName as scrapeName, "+
             " f.releaseDate as releaseDate, "+
-            " fd.runningTime as runningTime, "+
-            " fd.synopsis as synopsis "+
+            " f.runningTime as runningTime, "+
+            " f.synopsis as synopsis "+
             " from film_film f left outer join film_filmdetailed fd "+
             " on f.id = fd.film_ptr_id")
     @Mapper(FilmMapper.class)
@@ -59,8 +59,8 @@ public interface  FilmDAO {
             " f.posterImage as posterImage, "+
             " f.scrapeName as scrapeName, "+
             " f.releaseDate as releaseDate, "+
-            " fd.runningTime as runningTime, "+
-            " fd.synopsis as synopsis "+
+            " f.runningTime as runningTime, "+
+            " f.synopsis as synopsis "+
             " from film_film f left outer join film_filmdetailed fd "+
             " on f.id = fd.film_ptr_id "+
             " where f.id = :id ")
@@ -73,8 +73,8 @@ public interface  FilmDAO {
             " f.posterImage as posterImage, "+
             " f.scrapeName as scrapeName, "+
             " f.releaseDate as releaseDate, "+
-            " fd.runningTime as runningTime, "+
-            " fd.synopsis as synopsis "+
+            " f.runningTime as runningTime, "+
+            " f.synopsis as synopsis "+
             " from film_film f left outer join film_filmdetailed fd "+
             " on f.id = fd.film_ptr_id "+
             " where f.name = :name ")
