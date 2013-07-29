@@ -97,14 +97,22 @@ public class CinemaSourceOrchestrator extends BaseOrchestrator {
 
                         LOG.debug("Movie {}", movie.getMovieName());
 
+                        //@TREVOR, added this so we would reference films by scrape names instead
+                        List<Film> filmsByScrapeName = filmDao.findFilmByScrapeName(movie.getMovieName());
                         List<Film> filmsByName = filmDao.findFilmByName(movie.getMovieName());
-                        if( filmsByName != null && filmsByName.size() > 0 ) {
+                        if( filmsByScrapeName != null && filmsByScrapeName.size() > 0 ) {
 
-                            LOG.debug("Found a movie so updating showtimes for it...");
+                            LOG.debug("Found a movie by scrape name so updating showtimes for it...");
+
+                            updateShowtimes(movie, filmsByScrapeName.get(0), theater);
+
+                        } else if (filmsByName != null && filmsByName.size() > 0) {
+
+                            LOG.debug("Found a movie by name so updating showtimes for it...");
 
                             updateShowtimes(movie, filmsByName.get(0), theater);
-
-                        } else {
+                        }
+                        else {
                             int runtime =0 ;
                             try {
                                 runtime=Integer.parseInt(movie.getRuntime());
