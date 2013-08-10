@@ -83,4 +83,18 @@ public interface  FilmDAO {
             " where f.name = :name ")
     @Mapper(FilmMapper.class)
     List<Film> findFilmByName(@Bind("name") String name);
+
+    @SqlQuery("select " +
+            " f.id as id, "+
+            " f.name as name, "+
+            " f.posterImage as posterImage, "+
+            " f.scrapeName as scrapeName, "+
+            " f.releaseDate as releaseDate, "+
+            " f.runningTime as runningTime, "+
+            " f.synopsis as synopsis "+
+            " from film_film f left outer join film_filmdetailed fd "+
+            " on f.id = fd.film_ptr_id "+
+            " where f.scrapeName = :scrapName")
+    @Mapper(FilmMapper.class)
+    List<Film> findFilmByScrapeName(@Bind("scrapName") String scrapeName);
 }
