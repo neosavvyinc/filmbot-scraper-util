@@ -111,7 +111,15 @@ public class CinemaSourceOrchestrator extends BaseOrchestrator {
                             } catch (NumberFormatException e) {
                                 LOG.error("Error while parsing runtime - defaulting to 0 for: ", movie.getName());
                             }
-                            int id = filmDao.insertFilm(movie.getMovieName(), movie.getMovieName(), null, "", runtime, movie.getSynopsis());
+
+                            int movieId = 0;
+                            try {
+                                movieId = Integer.parseInt(movie.getMovieId());
+                            } catch (NumberFormatException e) {
+                                LOG.error("Error while parsing movie id from cinemasource - defaulting to 0 for: ", movie.getName());
+                            }
+
+                            int id = filmDao.insertFilm(movie.getMovieName(), movie.getMovieName(), null, "", runtime, movie.getSynopsis(), movieId);
                             filmsByName = filmDao.findFilmById(id);
                             updateShowtimes(movie, filmsByName.get(0), theater);
                         }
@@ -123,24 +131,29 @@ public class CinemaSourceOrchestrator extends BaseOrchestrator {
 
     private void updateShowtimes(MovieType movie, Film film, Theater theater) {
         List<ShowtimesType> showtimes = movie.getShowtimes();
-        List<String> showtimeStrings = showtimes.get(0).getShowtime();
 
-        try {
-            for ( int k = 0; k < showtimeStrings.size(); k++) {
-                LOG.debug("movietime> {} {}",showtimes.get(0).getDate(),showtimeStrings.get(k));
+        for (ShowtimesType showtime : showtimes) {
 
-                String movieTime = showtimes.get(0).getDate() + " " + showtimeStrings.get(k);
-                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
-                Date showtimeDate = df.parse(movieTime);
+            List<String> showtimeStrings = showtime.getShowtime();
+
+            try {
+                for ( int k = 0; k < showtimeStrings.size(); k++) {
+                    LOG.debug("movietime> {} {}",showtimes.get(0).getDate(),showtimeStrings.get(k));
+
+                    String movieTime = showtimes.get(0).getDate() + " " + showtimeStrings.get(k);
+                    DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+                    Date showtimeDate = df.parse(movieTime);
 
 
-                showtimeDAO.insertShowTime(
-                        theater.getId(), film.getId(), showtimeDate, ""
-                );
+                    showtimeDAO.insertShowTime(
+                            theater.getId(), film.getId(), showtimeDate, ""
+                    );
 
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        } catch (ParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+
         }
 
     }

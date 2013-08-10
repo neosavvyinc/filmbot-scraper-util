@@ -21,15 +21,16 @@ import java.util.List;
  */
 public interface  FilmDAO {
 
-    @SqlUpdate("insert into film_film (name, scrapeName, releaseDate, posterImage, runningTime, synopsis) " +
-            "values(:name, :scrapeName, :releaseDate, :posterImage, :runtime, :synopsis)")
+    @SqlUpdate("insert into film_film (name, scrapeName, releaseDate, posterImage, runningTime, synopsis, cinema_source_id) " +
+            "values(:name, :scrapeName, :releaseDate, :posterImage, :runtime, :synopsis, :cinema_source_id)")
     @GetGeneratedKeys
     int insertFilm(@Bind("name") String name,
                    @Bind("scrapeName") String scrapeName,
                    @Bind("releaseDate") Date releaseDate,
                    @Bind("posterImage") String posterImage,
                    @Bind("runtime") Integer runtime,
-                   @Bind("synopsis") String synopsis);
+                   @Bind("synopsis") String synopsis,
+                   @Bind("cinema_source_id") Integer cinemaSourceId);
 
 
     @SqlUpdate("insert into film_filmdetailed (film_ptr_id, runningTime, synopsis) " +

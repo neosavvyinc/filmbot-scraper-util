@@ -43,7 +43,7 @@ public class FilmDAOTest extends BaseDAOTest {
     public void insertOneFilmForTheater() {
         DateTime dt = new DateTime(1981, 8, 10, 4, 0, 0, 0);
 
-        int id = dao.insertFilm("Adams Film", "Adams Films ScrapeName", dt.toDate(), "NoImage", 100, "Synopsis");
+        int id = dao.insertFilm("Adams Film", "Adams Films ScrapeName", dt.toDate(), "NoImage", 100, "Synopsis", 0);
 
         Period runningTime = new Period().withHours(2).withMinutes(55);
 
@@ -62,9 +62,9 @@ public class FilmDAOTest extends BaseDAOTest {
     @Test
     public void findFilms() {
         DateTime dt = new DateTime(1981, 8, 10, 4, 0, 0, 0);
-        int id1 = dao.insertFilm("Max's Film", "Max's in your face awesome scrapename", dt.toDate(), "NoImage", 100, "Synopsis");
-        int id2 = dao.insertFilm("Trevor's Film", "Trevor's wicked awesome scrapname", dt.toDate(), "NoImage", 100, "Synopsis");
-        int id3 = dao.insertFilm("Chris's Film", "Chris's uber chill laid back name", dt.toDate(), "NoImage", 100, "Synopsis");
+        int id1 = dao.insertFilm("Max's Film", "Max's in your face awesome scrapename", dt.toDate(), "NoImage", 100, "Synopsis", 1);
+        int id2 = dao.insertFilm("Trevor's Film", "Trevor's wicked awesome scrapname", dt.toDate(), "NoImage", 100, "Synopsis", 2);
+        int id3 = dao.insertFilm("Chris's Film", "Chris's uber chill laid back name", dt.toDate(), "NoImage", 100, "Synopsis", 3);
         List<Film> films = dao.findFilms();
         assertThat(films.get(0).getId(), is(equalTo(id1)));
         assertThat(films.get(1).getId(), is(equalTo(id2)));
