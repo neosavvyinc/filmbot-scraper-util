@@ -146,9 +146,9 @@ public class CinemaSourceOrchestrator extends BaseOrchestrator {
 
             try {
                 for ( int k = 0; k < showtimeStrings.size(); k++) {
-                    LOG.debug("movietime> {} {}",showtimes.get(0).getDate(),showtimeStrings.get(k));
+                    LOG.debug("movietime> {} {}",showtime.getDate(),showtimeStrings.get(k));
 
-                    String movieTime = showtimes.get(0).getDate() + " " + showtimeStrings.get(k);
+                    String movieTime = showtime.getDate() + " " + showtimeStrings.get(k);
                     DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
                     Date showtimeDate = df.parse(movieTime);
 
